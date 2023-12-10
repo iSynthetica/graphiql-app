@@ -1,3 +1,4 @@
+import { useAppSelector } from '@/redux/hook';
 import Link from 'next/link';
 
 type WelcomePropsType = {
@@ -8,7 +9,8 @@ const WelcomeProps: WelcomePropsType = {
   isAuthorized: true,
 };
 const WelcomePage = (WelcomeProps: WelcomePropsType) => {
-  
+
+  //const  isAuthorized  = useAppSelector((store) => store.common.isAuthorized);
   const { isAuthorized } = WelcomeProps;
   return (
     <main>

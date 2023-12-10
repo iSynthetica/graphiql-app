@@ -38,9 +38,13 @@ const Header = () => {
     >
       <div className="container mx-auto flex justify-between items-center h-full">
         <Link href="/" className="text-white text-xl font-bold">
-          {language && language==='EN' && <span>Welcome Page</span>}
-          {language && language==='UK' && <span className={nunito.className}>Домашня сторінка</span>}
-          {language && language==='RU' && <span className={nunito.className}>Начальная страница</span>}
+          {language && language === 'EN' && <span>Welcome Page</span>}
+          {language && language === 'UK' && (
+            <span className={nunito.className}>Домашня сторінка</span>
+          )}
+          {language && language === 'RU' && (
+            <span className={nunito.className}>Начальная страница</span>
+          )}
         </Link>
         <div className="text-white">
           <select
@@ -55,9 +59,13 @@ const Header = () => {
           </select>
         </div>
         <Link href="/signout" className="text-white text-xl font-bold">
-        {language && language==='EN' && <span>Sign Out</span>}
-        {language && language==='UK' && <span className={nunito.className}>Вийти з Аккаунта</span>}
-        {language && language==='RU' && <span className={nunito.className}>Выйти из Аккаунта</span>}
+          {language && language === 'EN' && <span>Sign Out</span>}
+          {language && language === 'UK' && (
+            <span className={nunito.className}>Вийти з Аккаунта</span>
+          )}
+          {language && language === 'RU' && (
+            <span className={nunito.className}>Выйти из Аккаунта</span>
+          )}
         </Link>
       </div>
     </header>

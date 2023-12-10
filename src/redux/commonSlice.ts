@@ -16,10 +16,10 @@ const commonSlice = createSlice({
   initialState,
   reducers: {
     changeLanguage: (state, action: PayloadAction<Languages>) => {
-        state.language = action.payload;
-    }
+      state.language = action.payload;
+    },
   },
 });
 
-export const {changeLanguage} = commonSlice.actions;
+export const { changeLanguage } = commonSlice.actions;
 export default commonSlice.reducer;

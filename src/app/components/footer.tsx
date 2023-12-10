@@ -7,7 +7,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className='min-h-[10vh]'>
+    <footer className="min-h-[10vh]">
       <div className="bg-gray-800 text-white py-4 text-center flex justify-between items-center px-24">
         <Link
           href="https://github.com/iSynthetica"
