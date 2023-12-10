@@ -8,10 +8,11 @@ const WelcomeProps: WelcomePropsType = {
   isAuthorized: true,
 };
 const WelcomePage = (WelcomeProps: WelcomePropsType) => {
+  
   const { isAuthorized } = WelcomeProps;
   return (
     <main>
-      <div className="min-h-screen flex items-center justify-center bg-green-custom-800 text-white">
+      <div className="min-h-[90vh] flex items-center justify-center bg-green-custom-800 text-white">
         <div className="text-center">
           <h1 className="text-7xl font-bold mb-4">Welcome</h1>
           {isAuthorized ? (
