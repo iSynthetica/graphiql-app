@@ -9,9 +9,16 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        main: "url('/public/img/walls.jpeg')",
+      },
+      fontFamily: {
+        main: ['Fredoka', 'sans-serif'],
+        additional: ['Bebas Neue', 'sans-serif'],
+      },
+      colors: {
+        'green-custom': '#90EE90',
+        'yellow-custom': '#f0e14a',
+        'crimson-custom': '#e4a788',
       },
     },
   },
