@@ -1,8 +1,7 @@
 import Footer from './components/footer';
 import Header from './components/header';
 import './globals.css';
-import { Fredoka, Bebas_Neue, Roboto_Condensed } 
-from 'next/font/google';
+import { Fredoka, Bebas_Neue, Roboto_Condensed } from 'next/font/google';
 
 const fredoka = Fredoka({
   weight: '600',

@@ -1,5 +1,6 @@
 import { useAppSelector } from '@/redux/hook';
 import Link from 'next/link';
+import CoolButton from './components/lib/coolButton';
 
 type WelcomePropsType = {
   isAuthorized: boolean;
@@ -9,7 +10,6 @@ const WelcomeProps: WelcomePropsType = {
   isAuthorized: true,
 };
 const WelcomePage = (WelcomeProps: WelcomePropsType) => {
-
   //const  isAuthorized  = useAppSelector((store) => store.common.isAuthorized);
   const { isAuthorized } = WelcomeProps;
   return (
@@ -31,17 +31,19 @@ const WelcomePage = (WelcomeProps: WelcomePropsType) => {
             <>
               <p className="text-3xl mb-4">You are not authorized :(</p>
               <div className="flex justify-between my-8">
-                <Link
-                  href="/signin"
-                  className="bg-green-500 px-4 py-2 text-2xl rounded-full hover:bg-green-600"
-                >
-                  Sign In
+                <Link href="/signin" className="cursor-pointer">
+                  <CoolButton
+                    color="bg-green-500"
+                    text="Sign in"
+                    type="button"
+                  />
                 </Link>
-                <Link
-                  href="/signup"
-                  className="bg-yellow-500 px-4 py-2 text-2xl rounded-full hover:bg-yellow-600"
-                >
-                  Sign Up
+                <Link href="/signup" className="cursor-pointer">
+                  <CoolButton
+                    color="bg-yellow-500"
+                    text="Sign up"
+                    type="button"
+                  />
                 </Link>
               </div>
             </>
