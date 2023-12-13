@@ -28,7 +28,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/firebase/config.js"
+    "src/app/firebase/config.js",
+    "src/app/sign-up/[sign-up.tsx]",
+    "src/app/firebase/firestore/getData.js"
   ],
   "exclude": ["node_modules"]
 }
