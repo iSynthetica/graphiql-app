@@ -19,7 +19,7 @@ const config: Config = {
         'green-custom': '#90EE90',
         'yellow-custom': '#f0e14a',
         'crimson-custom': '#e4a788',
-        'green-grey-custom': '#90b493'
+        'green-grey-custom': '#90b493',
       },
     },
   },

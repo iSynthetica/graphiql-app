@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import CoolButton from '../components/lib/coolButton';
+import CoolButton from '../../components/lib/coolButton';
 import { useForm } from 'react-hook-form';
 import { validationSchema } from '@/utils/schema';
 import { yupResolver } from '@hookform/resolvers/yup';

@@ -19,7 +19,6 @@ const CoolButton = ({ color, text, type }: CoolButtonProps) => {
     'transform group-hover:rotate-[90deg]',
   ];
 
-  
   const border = `border-b-4 border-green-800`;
   const active = `active:border-b-0`;
   return (

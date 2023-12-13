@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import CoolButton from '../components/lib/coolButton';
+import CoolButton from '../../components/lib/coolButton';
 import { Nunito } from 'next/font/google';
 
 const nunito = Nunito({
