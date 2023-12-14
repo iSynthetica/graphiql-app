@@ -4,6 +4,7 @@ import { AuthContextValue } from '@/types/interfaces';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import CoolButton from './components/lib/coolButton';
 
 const WelcomePage = () => {
   const { user } = useAuthContext() as AuthContextValue;
@@ -24,7 +25,7 @@ const WelcomePage = () => {
             <>
               <p className="text-3xl mb-4">You are authorized!</p>
               <Link
-                href="/admin"
+                href="/"
                 className="bg-blue-500 px-4 py-2 rounded-full hover:bg-blue-600"
               >
                 Go to Main Page
@@ -34,18 +35,19 @@ const WelcomePage = () => {
             <>
               <p className="text-3xl mb-4">You are not authorized :(</p>
               <div className="flex justify-between my-8">
-                <Link
-                  href="/sign-in"
-                  className="bg-green-500 px-4 py-2 text-2xl rounded-full hover:bg-green-600"
-                  // onClick={() => router.push('/profile')}
-                >
-                  Sign In
+                <Link href="/signin" className="cursor-pointer">
+                  <CoolButton
+                    color="bg-green-500"
+                    text="Sign in"
+                    type="button"
+                  />
                 </Link>
-                <Link
-                  href="/sign-up"
-                  className="bg-yellow-500 px-4 py-2 text-2xl rounded-full hover:bg-yellow-600"
-                >
-                  Sign Up
+                <Link href="/signup" className="cursor-pointer">
+                  <CoolButton
+                    color="bg-yellow-500"
+                    text="Sign up"
+                    type="button"
+                  />
                 </Link>
               </div>
             </>

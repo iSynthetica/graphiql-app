@@ -1,8 +1,8 @@
 import { AuthContextProvider } from '@/context/AuthContext';
-import { Bebas_Neue, Fredoka } from 'next/font/google';
 import Footer from './components/footer';
 import Header from './components/header';
 import './globals.css';
+import { Fredoka, Bebas_Neue } from 'next/font/google';
 
 const fredoka = Fredoka({
   weight: '600',

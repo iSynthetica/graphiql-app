@@ -7,14 +7,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth';
-import {
-  addDoc,
-  collection,
-  getDocs,
-  getFirestore,
-  query,
-  where,
-} from 'firebase/firestore';
+import { collection, getFirestore, query, where } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -55,13 +48,12 @@ const logInWithEmailAndPassword = async (email, password) => {
   return { result, error };
 };
 
-const registerWithEmailAndPassword = async (name, email, password) => {
+const registerWithEmailAndPassword = async (auth, email, password) => {
   let result = null,
     error = null;
   try {
     result = await createUserWithEmailAndPassword(auth, email, password);
     const user = result.user;
-    console.log(user, 'user');
   } catch (err) {
     console.error(err);
     alert(err.message);
