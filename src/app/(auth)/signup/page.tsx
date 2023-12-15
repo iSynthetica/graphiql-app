@@ -1,11 +1,12 @@
 'use client';
+import { useAuth } from '@/context/AuthContext';
+import { IAuthContextValue } from '@/types/interfaces';
 import { FormDataSchema, validationSchema } from '@/utils/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Nunito } from 'next/font/google';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import CoolButton from '../../components/lib/coolButton';
-import { auth, registerWithEmailAndPassword } from '../../firebase/config';
 
 const nunito = Nunito({
   weight: '800',
@@ -24,17 +25,14 @@ const SignUp = () => {
   });
   const router = useRouter();
 
+  const { signUp } = useAuth() as IAuthContextValue;
+
   const onSubmit = async (data: FormDataSchema) => {
-    const { result, error } = await registerWithEmailAndPassword(
-      auth,
-      data.email,
-      data.password
-    );
+    const { result, error } = await signUp(data.email, data.password);
 
     const validationResult = await validationSchema.validate(data, {
       abortEarly: false,
     });
-    console.log(result, validationResult, 'user created successfully');
 
     if (error) {
       return console.log(error);
@@ -56,8 +54,11 @@ const SignUp = () => {
           <h1 className="text-4xl text-center">Sign Up</h1>
         </div>
         <div className="relative">
-          <label className="pl-1 text-xl">Email Address:</label>
+          <label className="pl-1 text-xl" htmlFor="email">
+            Email Address:
+          </label>
           <input
+            id="email"
             className="block w-[100%] rounded-2xl text-gray-800 border-gray-800 border-2 text-xl p-2"
             {...register('email')}
             placeholder="email"
@@ -72,10 +73,12 @@ const SignUp = () => {
         </div>
 
         <div className="relative">
-          <label className="pl-1 text-xl">Password:</label>
+          <label className="pl-1 text-xl" htmlFor="password">
+            Password:
+          </label>
           <input
+            id="password"
             className="block w-[100%] rounded-2xl text-gray-800 border-gray-800 border-2 text-xl p-2"
-            aria-label="Enter your password"
             {...register('password')}
             placeholder="password"
             type="password"
@@ -91,10 +94,12 @@ const SignUp = () => {
           )}
         </div>
         <div className="relative">
-          <label className="pl-1 text-xl">Confirm Password:</label>
+          <label className="pl-1 text-xl" htmlFor="confirmPassword">
+            Confirm Password:
+          </label>
           <input
+            id="confirmPassword"
             className="block w-[100%] rounded-2xl text-gray-800 border-gray-800 border-2 text-xl p-2"
-            aria-label="Confirm your password"
             {...register('confirmPassword')}
             placeholder="password"
             type="password"

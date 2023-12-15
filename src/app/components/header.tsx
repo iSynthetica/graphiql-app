@@ -1,8 +1,7 @@
 'use client';
-import { UserAuth } from '@/context/AuthContext';
-import { AuthContextValue } from '@/types/interfaces';
+import { useAuth } from '@/context/AuthContext';
+import { IAuthContextValue } from '@/types/interfaces';
 import { Languages } from '@/types/languages';
-import { User } from 'firebase/auth';
 import { Nunito } from 'next/font/google';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -21,7 +20,7 @@ const Header = () => {
     const scrollPosition = window.scrollY;
     setIsSticky(scrollPosition > 0);
   };
-  const { user, logout } = UserAuth() as AuthContextValue;
+  const { user, logout } = useAuth() as IAuthContextValue;
 
   const handleLogOut = async () => {
     await logout();
@@ -68,7 +67,6 @@ const Header = () => {
         </div>
         {user ? (
           <>
-            Hello, {user.displayName}
             <Link
               href="/"
               className="text-white text-xl font-bold"
@@ -84,12 +82,9 @@ const Header = () => {
             </Link>
           </>
         ) : (
-          // <Link
-          //   href="/sign-in"
-          //   className="bg-green-500 px-4 py-2 text-2l rounded-full hover:bg-green-600"
-          // >
-          <>Sign In</>
-          // </Link>
+          <Link href="/signin" className="text-white text-xl font-bold">
+            Sign In
+          </Link>
         )}
       </div>
     </header>

@@ -1,13 +1,13 @@
 'use client';
 import { useAuthContext } from '@/context/AuthContext';
-import { AuthContextValue } from '@/types/interfaces';
+import { IAuthContextValue } from '@/types/interfaces';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import CoolButton from './components/lib/coolButton';
 
 const WelcomePage = () => {
-  const { user } = useAuthContext() as AuthContextValue;
+  const { user } = useAuthContext() as IAuthContextValue;
   const router = useRouter();
 
   useEffect(() => {

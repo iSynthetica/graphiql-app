@@ -1,15 +1,13 @@
 'use client';
-import { UserAuth } from '@/context/AuthContext';
-import { AuthContextValue } from '@/types/interfaces';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { useAuth } from '@/context/AuthContext';
+import { IAuthContextValue } from '@/types/interfaces';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { db } from '../firebase/config';
 
 const Profile = () => {
   const [name, setName] = useState('');
   const router = useRouter();
-  const { user, loading, logout } = UserAuth() as AuthContextValue;
+  const { user, loading, logout } = useAuth() as IAuthContextValue;
 
   // const fetchUserName = async () => {
   //   try {

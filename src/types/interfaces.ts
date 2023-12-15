@@ -1,16 +1,18 @@
-import { User } from 'firebase/auth';
+import { User, UserCredential } from 'firebase/auth';
 
 export interface IAuthContextProviderProps {
   children: React.ReactNode;
 }
-export interface AuthContextValue {
+export interface IAuthContextValue {
   user: User | null;
   logout: () => {};
   loading?: boolean;
-}
-export interface IButton {
-  title: string;
-  onClick?: () => {};
-  type: 'submit' | 'reset' | 'button' | undefined;
-  btnClass: string;
+  signUp: (
+    email: string,
+    password: string
+  ) => Promise<{ result?: UserCredential; error?: Error }>;
+  signIn: (
+    email: string,
+    password: string
+  ) => Promise<{ result?: UserCredential; error?: Error }>;
 }
