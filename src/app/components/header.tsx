@@ -1,10 +1,11 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
 import { Languages } from '@/types/languages';
-import { Nunito } from 'next/font/google';
+import { Source_Sans_3 } from 'next/font/google';
+import { ILocalizationContext } from '@/localization';
 
-const nunito = Nunito({
+const sourse = Source_Sans_3({
   weight: '800',
   subsets: ['latin'],
   display: 'swap',
@@ -12,7 +13,8 @@ const nunito = Nunito({
 
 const Header = () => {
   const [isSticky, setIsSticky] = useState(false);
-  const [language, setLanguage] = useState('EN');
+  const {language, localization, setLanguage} = useContext(ILocalizationContext);
+
 
   const handleScroll = () => {
     const scrollPosition = window.scrollY;
@@ -38,13 +40,7 @@ const Header = () => {
     >
       <div className="container mx-auto flex justify-between items-center h-full">
         <Link href="/" className="text-white text-xl font-bold">
-          {language && language === 'EN' && <span>Welcome Page</span>}
-          {language && language === 'UK' && (
-            <span className={nunito.className}>Домашня сторінка</span>
-          )}
-          {language && language === 'RU' && (
-            <span className={nunito.className}>Начальная страница</span>
-          )}
+          <span  className={sourse.className}>{localization[language].welcomePage}</span>
         </Link>
         <div className="text-white">
           <select
@@ -59,13 +55,7 @@ const Header = () => {
           </select>
         </div>
         <Link href="/signout" className="text-white text-xl font-bold">
-          {language && language === 'EN' && <span>Sign Out</span>}
-          {language && language === 'UK' && (
-            <span className={nunito.className}>Вийти з Аккаунта</span>
-          )}
-          {language && language === 'RU' && (
-            <span className={nunito.className}>Выйти из Аккаунта</span>
-          )}
+        <span  className={sourse.className}>{localization[language].signOut}</span>
         </Link>
       </div>
     </header>

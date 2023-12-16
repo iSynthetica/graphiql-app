@@ -1,3 +1,5 @@
+'use client'
+import { ILocalizationProvider } from '@/localization';
 import Footer from './components/footer';
 import Header from './components/header';
 import './globals.css';
@@ -21,6 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+    <ILocalizationProvider >
     <html lang="en" className={`${fredoka.className} bg-green-custom`}>
       <body className="min-h-screen">
         <Header />
@@ -28,5 +31,6 @@ export default function RootLayout({
         <Footer />
       </body>
     </html>
+    </ILocalizationProvider>
   );
 }
