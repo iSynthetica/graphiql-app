@@ -3,15 +3,14 @@ import Link from 'next/link';
 import CoolButton from './components/lib/coolButton';
 
 type WelcomePropsType = {
-  isAuthorized: boolean;
+  params: { isAuthorized: boolean };
 };
 
 const WelcomeProps: WelcomePropsType = {
-  isAuthorized: true,
+  params: { isAuthorized: true },
 };
 const WelcomePage = (WelcomeProps: WelcomePropsType) => {
-  //const  isAuthorized  = useAppSelector((store) => store.common.isAuthorized);
-  const { isAuthorized } = WelcomeProps;
+  const { isAuthorized } = WelcomeProps.params;
   return (
     <main>
       <div className="min-h-[90vh] flex items-center justify-center bg-green-custom-800 text-white">
