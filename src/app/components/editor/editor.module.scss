@@ -1,0 +1,12 @@
+.editorLeftCol {
+  padding: 10px;
+  background-color: white;
+  border: 3px solid #e6e6e6;
+  border-radius: 10px;
+}
+.editorRightCol {
+  padding: 10px;
+  .monaco-editor {
+    background-color: transparent;
+  }
+}
