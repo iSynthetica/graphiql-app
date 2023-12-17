@@ -1,38 +1,46 @@
 'use client';
 import { useAuth } from '@/context/AuthContext';
+import { ILocalizationContext } from '@/localization';
 import { IAuthContextValue } from '@/types/interfaces';
 import { Languages } from '@/types/languages';
-import { Nunito } from 'next/font/google';
+import { Source_Sans_3 } from 'next/font/google';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { useContext, useEffect, useState } from 'react';
 
-const nunito = Nunito({
+const sourse = Source_Sans_3({
   weight: '800',
   subsets: ['latin'],
   display: 'swap',
 });
 
 const Header = () => {
-  const [isSticky, setIsSticky] = useState(false);
-  const [language, setLanguage] = useState('EN');
-
-  const handleScroll = () => {
-    const scrollPosition = window.scrollY;
-    setIsSticky(scrollPosition > 0);
-  };
   const { user, logout } = useAuth() as IAuthContextValue;
-  console.log('User:', user?.email);
-
-  const handleLogOut = async () => {
-    await logout();
-  };
-
+  const [isSticky, setIsSticky] = useState(false);
+  const pathname = usePathname();
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+  const { language, localization, setLanguage } =
+    useContext(ILocalizationContext);
+  if (!pathname || typeof window === 'undefined') {
+    return null;
+  }
+
+  const isSignInPage = pathname === '/signin';
+  const isSignUpPage = pathname === '/signup';
+
+  const handleScroll = () => {
+    const scrollPosition = window.scrollY;
+    setIsSticky(scrollPosition > 0);
+  };
+
+  const handleLogOut = async () => {
+    await logout();
+  };
 
   const handleLanguageChange = (language: Languages) => {
     setLanguage(language);
@@ -46,13 +54,9 @@ const Header = () => {
     >
       <div className="container mx-auto flex justify-between items-center h-full">
         <Link href="/" className="text-white text-xl font-bold">
-          {language && language === 'EN' && <span>Welcome Page</span>}
-          {language && language === 'UK' && (
-            <span className={nunito.className}>Домашня сторінка</span>
-          )}
-          {language && language === 'RU' && (
-            <span className={nunito.className}>Начальная страница</span>
-          )}
+          <span className={sourse.className}>
+            {localization[language].welcomePage}
+          </span>
         </Link>
         <div className="text-white">
           <select
@@ -62,7 +66,7 @@ const Header = () => {
             onChange={(e) => handleLanguageChange(e.target.value as Languages)}
           >
             <option value="EN">EN</option>
-            <option value="UK">UK</option>
+            <option value="UA">UA</option>
             <option value="RU">RU</option>
           </select>
         </div>
@@ -70,22 +74,43 @@ const Header = () => {
           <>
             <Link
               href="/"
-              className="text-white text-xl font-bold"
               onClick={handleLogOut}
+              className="text-white text-xl font-bold"
             >
-              {language && language === 'EN' && <span>Sign Out</span>}
-              {language && language === 'UK' && (
-                <span className={nunito.className}>Вийти з Аккаунта</span>
-              )}
-              {language && language === 'RU' && (
-                <span className={nunito.className}>Выйти из Аккаунта</span>
-              )}
+              <span className={sourse.className}>
+                {localization[language].signOut}
+              </span>
             </Link>
           </>
         ) : (
-          <Link href="/signin" className="text-white text-xl font-bold">
-            Sign In
-          </Link>
+          <>
+            {isSignInPage ? (
+              <Link href="/signup" className="text-white text-xl font-bold">
+                <span className={sourse.className}>
+                  {localization[language].signUp}
+                </span>
+              </Link>
+            ) : isSignUpPage ? (
+              <Link href="/signin" className="text-white text-xl font-bold">
+                <span className={sourse.className}>
+                  {localization[language].signIn}
+                </span>
+              </Link>
+            ) : (
+              <>
+                <Link href="/signin" className="text-white text-xl font-bold">
+                  <span className={sourse.className}>
+                    {localization[language].signIn}
+                  </span>
+                </Link>
+                <Link href="/signup" className="text-white text-xl font-bold">
+                  <span className={sourse.className}>
+                    {localization[language].signUp}
+                  </span>
+                </Link>
+              </>
+            )}
+          </>
         )}
       </div>
     </header>

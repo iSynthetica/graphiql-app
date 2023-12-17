@@ -1,13 +1,14 @@
 'use client';
 import { signInWithGoogle } from '@/app/firebase/config';
 import { useAuth } from '@/context/AuthContext';
+import { ILocalizationContext } from '@/localization';
 import { IAuthContextValue } from '@/types/interfaces';
 import { FormDataSchema, validationSchema } from '@/utils/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Nunito } from 'next/font/google';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import CoolButton from '../../components/lib/coolButton';
 
@@ -18,6 +19,7 @@ const nunito = Nunito({
 });
 
 const Login = () => {
+  const { user, signIn } = useAuth() as IAuthContextValue;
   const {
     register,
     handleSubmit,
@@ -27,7 +29,8 @@ const Login = () => {
     mode: 'onBlur',
   });
   const router = useRouter();
-  const { user, signIn } = useAuth() as IAuthContextValue;
+  const { language, localization, setLanguage } =
+    useContext(ILocalizationContext);
 
   useEffect(() => {
     if (user) {
@@ -59,17 +62,19 @@ const Login = () => {
         noValidate
       >
         <div>
-          <h1 className="text-4xl text-center">Login</h1>
+          <h1 className="text-4xl text-center">
+            {localization[language].login}
+          </h1>
         </div>
         <div className="relative">
           <label className="pl-1 text-xl" htmlFor="email">
-            Email Address:
+            {localization[language].email}
           </label>
           <input
             id="email"
             className="block w-[100%] rounded-2xl text-gray-800 border-gray-800 border-2 text-xl p-2"
             {...register('email')}
-            placeholder="email"
+            placeholder={localization[language].email}
             type="email"
             autoComplete="new-email"
           />
@@ -82,14 +87,14 @@ const Login = () => {
 
         <div className="relative">
           <label className="pl-1 text-xl" htmlFor="password">
-            Password:
+            {localization[language].password}
           </label>
           <input
             id="password"
             className="block w-[100%] rounded-2xl text-gray-800 border-gray-800 border-2 text-xl p-2"
             aria-label="Enter your password"
             {...register('password')}
-            placeholder="password"
+            placeholder={localization[language].password}
             type="password"
             autoComplete="new-password"
           />
@@ -103,9 +108,16 @@ const Login = () => {
           )}
         </div>
         <div className="flex justify-center">
-          <CoolButton color="bg-gray-800" text="Login" type="submit" />
+          <CoolButton
+            color="bg-gray-800"
+            text={localization[language].signIn}
+            type="submit"
+          />
         </div>
-        <p className="mb-0 mr-4 text-lg">or Log in with</p>
+        <p className="mb-0 mr-4 text-lg">
+          {' '}
+          {localization[language].login} {localization[language].fromProvider}
+        </p>
         <hr />
 
         <button
@@ -141,9 +153,9 @@ const Login = () => {
           </svg>
         </button>
         <p className="text-sm font-semibold">
-          Don&apos;t have an account?
+          {localization[language].dontHaveAccount}
           <Link href="/signup" className="text-gray-800 px-2 text-sm">
-            Sign Up
+            {localization[language].signUp}
           </Link>
         </p>
       </form>

@@ -1,11 +1,12 @@
 'use client';
 import { useAuth } from '@/context/AuthContext';
+import { ILocalizationContext } from '@/localization';
 import { IAuthContextValue } from '@/types/interfaces';
 import { FormDataSchema, validationSchema } from '@/utils/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Nunito } from 'next/font/google';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import CoolButton from '../../components/lib/coolButton';
 
@@ -27,16 +28,18 @@ const SignUp = () => {
   const router = useRouter();
 
   const { user, signUp } = useAuth() as IAuthContextValue;
+  const { language, localization } = useContext(ILocalizationContext);
 
   useEffect(() => {
     if (user) {
       router.push('/');
     }
   }, [user, router]);
-  const onSubmit = async (data: FormDataSchema) => {
-    const { result, error } = await signUp(data.email, data.password);
 
-    const validationResult = await validationSchema.validate(data, {
+  const onSubmit = async (data: FormDataSchema) => {
+    const { error } = await signUp(data.email, data.password);
+
+    await validationSchema.validate(data, {
       abortEarly: false,
     });
 
@@ -46,7 +49,6 @@ const SignUp = () => {
 
     return router.push('/');
   };
-
   return (
     <div
       className={`min-h-[90vh] flex justify-center text-white items-center w-screen ${nunito.className}`}
@@ -57,17 +59,19 @@ const SignUp = () => {
         noValidate
       >
         <div>
-          <h1 className="text-4xl text-center">Sign Up</h1>
+          <h1 className="text-4xl text-center">
+            {localization[language].signUp}
+          </h1>
         </div>
         <div className="relative">
           <label className="pl-1 text-xl" htmlFor="email">
-            Email Address:
+            {localization[language].email}
           </label>
           <input
             id="email"
             className="block w-[100%] rounded-2xl text-gray-800 border-gray-800 border-2 text-xl p-2"
             {...register('email')}
-            placeholder="email"
+            placeholder={localization[language].email}
             type="email"
             autoComplete="new-email"
           />
@@ -80,13 +84,13 @@ const SignUp = () => {
 
         <div className="relative">
           <label className="pl-1 text-xl" htmlFor="password">
-            Password:
+            {localization[language].password}
           </label>
           <input
             id="password"
             className="block w-[100%] rounded-2xl text-gray-800 border-gray-800 border-2 text-xl p-2"
             {...register('password')}
-            placeholder="password"
+            placeholder={localization[language].password}
             type="password"
             autoComplete="new-password"
           />
@@ -101,13 +105,13 @@ const SignUp = () => {
         </div>
         <div className="relative">
           <label className="pl-1 text-xl" htmlFor="confirmPassword">
-            Confirm Password:
+            {localization[language].confirmPassword}
           </label>
           <input
             id="confirmPassword"
             className="block w-[100%] rounded-2xl text-gray-800 border-gray-800 border-2 text-xl p-2"
             {...register('confirmPassword')}
-            placeholder="password"
+            placeholder={localization[language].password}
             type="password"
             autoComplete="new-password"
           />
@@ -118,7 +122,11 @@ const SignUp = () => {
           )}
         </div>
         <div className="flex justify-center">
-          <CoolButton color="bg-gray-800" text="Sign up" type="submit" />
+          <CoolButton
+            color="bg-gray-800"
+            text={localization[language].signUp}
+            type="submit"
+          />
         </div>
       </form>
     </div>

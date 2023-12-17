@@ -32,7 +32,7 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
       error = null;
     try {
       result = await createUserWithEmailAndPassword(auth, email, password);
-      const user = result.user;
+      // const user = result.user;
     } catch (err) {
       console.error(err);
     }
