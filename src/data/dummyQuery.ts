@@ -1,7 +1,14 @@
 export const dummyQuery = `query ($limit: Int!) {
-  todos(limit: $limit) {
+  categories(limit: $limit) {
     id
-    title
+    name
+    slug
+    parent
+    description
+    display
+    image
+    menu_order
+    count
   }
 }
 `;
