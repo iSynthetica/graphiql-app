@@ -1,7 +1,8 @@
 'use client';
-import React from 'react';
+import React, { useContext } from 'react';
 import CoolButton from '../../components/lib/coolButton';
 import { Nunito } from 'next/font/google';
+import { ILocalizationContext } from '@/localization';
 
 const nunito = Nunito({
   weight: '800',
@@ -10,6 +11,8 @@ const nunito = Nunito({
 });
 
 const Login = () => {
+  const {language, localization, setLanguage} = useContext(ILocalizationContext);
+  
   const onSubmit = async () => {
     console.log('login');
   };
@@ -23,10 +26,10 @@ const Login = () => {
         className="min-w-[25%] pt-8 pb-10 bg-green-grey-custom mx-auto px-16  flex flex-col gap-6 rounded-3xl border-gray-800 border-2"
       >
         <div>
-          <h1 className="text-4xl text-center">Login</h1>
+          <h1 className="text-4xl text-center">{localization[language].login}</h1>
         </div>
         <div className="relative">
-          <label className="pl-1 text-xl">Email Address:</label>
+          <label className="pl-1 text-xl">{localization[language].email}</label>
           <input
             className="block w-[100%] rounded-2xl text-gray-800 border-gray-800 border-2 text-xl p-2"
             placeholder="email"
@@ -36,16 +39,16 @@ const Login = () => {
         </div>
 
         <div className="relative">
-          <label className="pl-1 text-xl">Password:</label>
+          <label className="pl-1 text-xl">{localization[language].password}</label>
           <input
             className="block w-[100%] rounded-2xl text-gray-800 border-gray-800 border-2 text-xl p-2"
-            placeholder="password"
+            placeholder={localization[language].password}
             type="password"
             required
           />
         </div>
         <div className="flex justify-center">
-          <CoolButton color="bg-gray-800" text="Login" type="submit" />
+          <CoolButton color="bg-gray-800" text={localization[language].login} type="submit" />
         </div>
       </form>
     </div>
