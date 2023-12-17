@@ -25,6 +25,6 @@ const editorSlice = createSlice({
   },
 });
 
-export const { changeQueryContent, changeResponseContent } = editorSlice.actions;
+export const { changeQueryContent, changeResponseContent } =
+  editorSlice.actions;
 export default editorSlice.reducer;
-
