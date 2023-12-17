@@ -5,6 +5,7 @@ import { FormDataSchema, validationSchema } from '@/utils/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Nunito } from 'next/font/google';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import CoolButton from '../../components/lib/coolButton';
 
@@ -25,8 +26,13 @@ const SignUp = () => {
   });
   const router = useRouter();
 
-  const { signUp } = useAuth() as IAuthContextValue;
+  const { user, signUp } = useAuth() as IAuthContextValue;
 
+  useEffect(() => {
+    if (user) {
+      router.push('/');
+    }
+  }, [user, router]);
   const onSubmit = async (data: FormDataSchema) => {
     const { result, error } = await signUp(data.email, data.password);
 

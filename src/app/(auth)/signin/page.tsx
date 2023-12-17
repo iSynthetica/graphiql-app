@@ -1,4 +1,5 @@
 'use client';
+import { signInWithGoogle } from '@/app/firebase/config';
 import { useAuth } from '@/context/AuthContext';
 import { IAuthContextValue } from '@/types/interfaces';
 import { FormDataSchema, validationSchema } from '@/utils/schema';
@@ -6,9 +7,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Nunito } from 'next/font/google';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import CoolButton from '../../components/lib/coolButton';
-import { signInWithGoogle } from '@/app/firebase/config';
 
 const nunito = Nunito({
   weight: '800',
@@ -26,15 +27,20 @@ const Login = () => {
     mode: 'onBlur',
   });
   const router = useRouter();
-  const { signIn } = useAuth() as IAuthContextValue;
+  const { user, signIn } = useAuth() as IAuthContextValue;
+
+  useEffect(() => {
+    if (user) {
+      router.push('/');
+    }
+  }, [user, router]);
 
   const onSubmit = async (data: FormDataSchema) => {
-    const { result, error } = await signIn(data.email, data.password);
+    const { error } = await signIn(data.email, data.password);
 
-    const validationResult = await validationSchema.validate(data, {
+    await validationSchema.validate(data, {
       abortEarly: false,
     });
-    console.log(result, 'sign in result');
 
     if (error) {
       return console.log(error);
