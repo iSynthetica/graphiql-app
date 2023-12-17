@@ -20,6 +20,8 @@ export interface ILocalizationContextType {
       password: string;
       confirmPassword: string;
       notFoundPageText: string;
+      dontHaveAccount: string;
+      fromProvider: string;
     };
   };
 }
@@ -39,6 +41,8 @@ const localization: ILocalizationContextType['localization'] = {
     password: 'Password:',
     confirmPassword: 'Confirm Password:',
     notFoundPageText: 'The page you are looking for does not exist.',
+    dontHaveAccount: "Don't have an account?",
+    fromProvider: 'with',
   },
   RU: {
     greeting: 'Добро пожаловать!',
@@ -54,21 +58,25 @@ const localization: ILocalizationContextType['localization'] = {
     password: 'Пароль:',
     confirmPassword: 'Подтвердите пароль:',
     notFoundPageText: 'Такая страница не существует',
+    dontHaveAccount: 'Нет аккаунта?',
+    fromProvider: 'через',
   },
-  UK: {
-    greeting: '',
-    authorizedStatusNegative: '',
-    authorizedStatusPositive: '',
-    linkToMainPage: '',
-    signIn: '',
-    signUp: '',
-    signOut: '',
-    welcomePage: '',
-    login: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    notFoundPageText: '',
+  UA: {
+    greeting: 'Ласкаво просимо!',
+    authorizedStatusNegative: 'Ви не авторизовані :(',
+    authorizedStatusPositive: 'Ви авторизовані!',
+    linkToMainPage: 'На головну сторінку',
+    signIn: 'Увійти',
+    signUp: 'Реєстрація',
+    signOut: 'Вийти з облікового запису',
+    welcomePage: 'Головна сторінка',
+    login: 'Вхід в обліковий запис',
+    email: 'Адреса електронної пошти:',
+    password: 'Пароль:',
+    confirmPassword: 'Підтвердіть пароль:',
+    notFoundPageText: 'Такої сторінки не існує',
+    dontHaveAccount: 'Не маєте облікового запису?',
+    fromProvider: 'через',
   },
 };
 

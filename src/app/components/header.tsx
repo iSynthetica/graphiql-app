@@ -1,9 +1,12 @@
 'use client';
-import { useState, useEffect, useContext } from 'react';
-import Link from 'next/link';
+import { useAuth } from '@/context/AuthContext';
+import { ILocalizationContext } from '@/localization';
+import { IAuthContextValue } from '@/types/interfaces';
 import { Languages } from '@/types/languages';
 import { Source_Sans_3 } from 'next/font/google';
-import { ILocalizationContext } from '@/localization';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useContext, useEffect, useState } from 'react';
 
 const sourse = Source_Sans_3({
   weight: '800',
@@ -12,21 +15,32 @@ const sourse = Source_Sans_3({
 });
 
 const Header = () => {
+  const { user, logout } = useAuth() as IAuthContextValue;
   const [isSticky, setIsSticky] = useState(false);
-  const {language, localization, setLanguage} = useContext(ILocalizationContext);
-
-
-  const handleScroll = () => {
-    const scrollPosition = window.scrollY;
-    setIsSticky(scrollPosition > 0);
-  };
-
+  const pathname = usePathname();
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+  const { language, localization, setLanguage } =
+    useContext(ILocalizationContext);
+  if (!pathname || typeof window === 'undefined') {
+    return null;
+  }
+
+  const isSignInPage = pathname === '/signin';
+  const isSignUpPage = pathname === '/signup';
+
+  const handleScroll = () => {
+    const scrollPosition = window.scrollY;
+    setIsSticky(scrollPosition > 0);
+  };
+
+  const handleLogOut = async () => {
+    await logout();
+  };
 
   const handleLanguageChange = (language: Languages) => {
     setLanguage(language);
@@ -40,7 +54,9 @@ const Header = () => {
     >
       <div className="container mx-auto flex justify-between items-center h-full">
         <Link href="/" className="text-white text-xl font-bold">
-          <span  className={sourse.className}>{localization[language].welcomePage}</span>
+          <span className={sourse.className}>
+            {localization[language].welcomePage}
+          </span>
         </Link>
         <div className="text-white">
           <select
@@ -50,13 +66,52 @@ const Header = () => {
             onChange={(e) => handleLanguageChange(e.target.value as Languages)}
           >
             <option value="EN">EN</option>
-            <option value="UK">UK</option>
+            <option value="UA">UA</option>
             <option value="RU">RU</option>
           </select>
         </div>
-        <Link href="/signout" className="text-white text-xl font-bold">
-        <span  className={sourse.className}>{localization[language].signOut}</span>
-        </Link>
+        {user ? (
+          <>
+            <Link
+              href="/"
+              onClick={handleLogOut}
+              className="text-white text-xl font-bold"
+            >
+              <span className={sourse.className}>
+                {localization[language].signOut}
+              </span>
+            </Link>
+          </>
+        ) : (
+          <>
+            {isSignInPage ? (
+              <Link href="/signup" className="text-white text-xl font-bold">
+                <span className={sourse.className}>
+                  {localization[language].signUp}
+                </span>
+              </Link>
+            ) : isSignUpPage ? (
+              <Link href="/signin" className="text-white text-xl font-bold">
+                <span className={sourse.className}>
+                  {localization[language].signIn}
+                </span>
+              </Link>
+            ) : (
+              <>
+                <Link href="/signin" className="text-white text-xl font-bold">
+                  <span className={sourse.className}>
+                    {localization[language].signIn}
+                  </span>
+                </Link>
+                <Link href="/signup" className="text-white text-xl font-bold">
+                  <span className={sourse.className}>
+                    {localization[language].signUp}
+                  </span>
+                </Link>
+              </>
+            )}
+          </>
+        )}
       </div>
     </header>
   );

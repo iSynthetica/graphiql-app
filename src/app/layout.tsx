@@ -1,9 +1,10 @@
-'use client'
+'use client';
+import { AuthContextProvider } from '@/context/AuthContext';
 import { ILocalizationProvider } from '@/localization';
+import { Bebas_Neue, Fredoka } from 'next/font/google';
 import Footer from './components/footer';
 import Header from './components/header';
 import './globals.css';
-import { Fredoka, Bebas_Neue, Roboto_Condensed } from 'next/font/google';
 
 const fredoka = Fredoka({
   weight: '600',
@@ -23,14 +24,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ILocalizationProvider >
-    <html lang="en" className={`${fredoka.className} bg-green-custom`}>
-      <body className="min-h-screen">
-        <Header />
-        {children}
-        <Footer />
-      </body>
-    </html>
+    <ILocalizationProvider>
+      <html lang="en" className={`${fredoka.className} bg-green-custom`}>
+        <body className="min-h-screen">
+          <AuthContextProvider>
+            <Header />
+            {children}
+            <Footer />
+          </AuthContextProvider>
+        </body>
+      </html>
     </ILocalizationProvider>
   );
 }
