@@ -34,6 +34,7 @@ const Login = () => {
     const validationResult = await validationSchema.validate(data, {
       abortEarly: false,
     });
+    console.log(result, 'sign in result');
 
     if (error) {
       return console.log(error);
@@ -101,7 +102,13 @@ const Login = () => {
         <p className="mb-0 mr-4 text-lg">or Log in with</p>
         <hr />
 
-        <button type="button" onClick={signInWithGoogle}>
+        <button
+          type="button"
+          onClick={() => {
+            signInWithGoogle();
+            router.push('/');
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="38"

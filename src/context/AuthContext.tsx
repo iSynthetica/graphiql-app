@@ -59,17 +59,15 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
       setLoading(false);
     });
 
-    const unsubscribeTokenChanged = onIdTokenChanged(auth, (user) => {
-      if (!user) {
-        logout();
-      }
-    });
+    // const unsubscribeTokenChanged = onIdTokenChanged(auth, (user) => {
+    //   if (!user) {
+    //     logout();
+    //   }
+    // });
 
-    return () => {
-      unsubscribeAuthState();
-      unsubscribeTokenChanged();
-    };
-  }, []);
+    return () => unsubscribeAuthState();
+    // unsubscribeTokenChanged();
+  }, [user]);
 
   return (
     <AuthContext.Provider value={{ user, loading, signUp, signIn, logout }}>

@@ -21,6 +21,7 @@ const Header = () => {
     setIsSticky(scrollPosition > 0);
   };
   const { user, logout } = useAuth() as IAuthContextValue;
+  console.log('User:', user?.email);
 
   const handleLogOut = async () => {
     await logout();
