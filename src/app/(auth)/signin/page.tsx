@@ -37,7 +37,9 @@ const Login = () => {
       router.push('/');
     }
   }, [user, router]);
-
+  if (user) {
+    return null;
+  }
   const onSubmit = async (data: FormDataSchema) => {
     const { error } = await signIn(data.email, data.password);
 
