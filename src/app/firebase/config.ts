@@ -1,4 +1,4 @@
-import { getApps, initializeApp } from 'firebase/app';
+import { FirebaseError, getApps, initializeApp } from 'firebase/app';
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
 import { collection, getFirestore, query, where } from 'firebase/firestore';
 
@@ -23,8 +23,10 @@ const signInWithGoogle = async () => {
     const res = await signInWithPopup(auth, googleProvider);
     const user = res.user;
     const q = query(collection(db, 'users'), where('uid', '==', user.uid));
-  } catch (err) {
-    console.error(err);
+  } catch (err: FirebaseError | unknown) {
+    if (err instanceof FirebaseError) {
+      console.log(err);
+    }
   }
 };
 

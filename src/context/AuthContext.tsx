@@ -1,11 +1,11 @@
 'use client';
-
 import firebase_app from '@/app/firebase/config';
 import { IAuthContextProviderProps } from '@/types/interfaces';
+import { FirebaseError } from 'firebase/app';
 import {
   createUserWithEmailAndPassword,
   getAuth,
-  onAuthStateChanged,
+  // onAuthStateChanged,
   onIdTokenChanged,
   signInWithEmailAndPassword,
   signOut,
@@ -42,18 +42,22 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
       error = null;
     try {
       result = await signInWithEmailAndPassword(auth, email, password);
-    } catch (err) {
-      console.error(err);
+    } catch (err: FirebaseError | unknown) {
+      if (err instanceof FirebaseError) {
+        console.log(err);
+      }
     }
     return { result, error };
   };
 
   useEffect(() => {
-    const unsubscribeAuthState = onAuthStateChanged(auth, (user) => {
+    // const unsubscribeAuthState = onAuthStateChanged(auth, (user) => {
+    const unsubscribeTokenChanged = onIdTokenChanged(auth, (user) => {
       if (user) {
         setUser(user);
       } else {
         setUser(null);
+        logout();
       }
       setLoading(false);
     });
@@ -64,8 +68,8 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
     //   }
     // });
 
-    return () => unsubscribeAuthState();
-    // unsubscribeTokenChanged();
+    //return () => unsubscribeAuthState();
+    return unsubscribeTokenChanged;
   }, [user]);
 
   return (
