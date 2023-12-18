@@ -1,3 +1,6 @@
+import { faMagicWandSparkles, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { Editor, OnMount } from '@monaco-editor/react';
 import { cn } from '@/utils/cn';
 import styles from './editor.module.scss';
@@ -22,20 +25,36 @@ const QueryEditor = () => {
   return (
     <>
       <div className={cn(styles.editorLeftCol)}>
-        <Editor
-          height="600px"
-          language="graphql"
-          value={queryContent}
-          onMount={handleEditorDidMount}
-          options={{
-            minimap: {
-              enabled: false,
-            },
-            renderLineHighlight: 'none',
-          }}
-        />
+        <div className={styles.editorQueryContainer}>
+          <Editor
+            height="500px"
+            language="graphql"
+            value={queryContent}
+            onMount={handleEditorDidMount}
+            options={{
+              minimap: {
+                enabled: false,
+              },
+              scrollBeyondLastLine: false,
+              renderLineHighlight: 'none',
+            }}
+          />
+          <button
+            className={cn(styles.btnEditor, styles.btnRunQuery)}
+            onClick={runQuery}
+            title="Run Query"
+          >
+            <FontAwesomeIcon icon={faPlay} />
+          </button>
+          <button
+            className={cn(styles.btnEditor, styles.btnPrettify)}
+            onClick={runQuery}
+            title="Run Query"
+          >
+            <FontAwesomeIcon icon={faMagicWandSparkles} />
+          </button>
+        </div>
       </div>
-      <button onClick={runQuery}>Run Query</button>
     </>
   );
 };

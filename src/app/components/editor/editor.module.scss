@@ -6,7 +6,37 @@
 }
 .editorRightCol {
   padding: 10px;
-  .monaco-editor {
+  background-color: rgba($color: #ffffff, $alpha: 0.5);
+}
+.editorQueryContainer {
+  position: relative;
+  padding-right: 45px;
+  .btnEditor {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 25px;
+    right: 0;
+    border-radius: 5px;
+  }
+  .btnRunQuery {
+    top: 0;
+    background-color: #90ee90;
+    border: 1px solid #90ee90;
+    &:hover {
+      background-color: #6fce6f;
+      border: 1px solid #6fce6f;
+    }
+  }
+  .btnPrettify {
+    top: 35px;
     background-color: transparent;
+    border: 1px solid rgb(178, 178, 178);
+    color: rgb(178, 178, 178);
+    &:hover {
+      border: 1px solid #6fce6f;
+      color: #6fce6f;
+    }
   }
 }

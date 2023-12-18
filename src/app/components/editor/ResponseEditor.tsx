@@ -21,13 +21,14 @@ const ResponseEditor = () => {
     <div className={cn(styles.editorRightCol)}>
       <Editor
         className="readOnlyEditor"
-        height="600px"
+        height="500px"
         language="json"
         beforeMount={handleEditorWillMount}
         value={responseContent}
         options={{
           lineNumbers: 'off',
           readOnly: true,
+          scrollBeyondLastLine: false,
           minimap: {
             enabled: false,
           },
