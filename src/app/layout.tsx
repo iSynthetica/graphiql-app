@@ -1,13 +1,13 @@
 'use client';
 import { AuthContextProvider } from '@/context/AuthContext';
 import { ILocalizationProvider } from '@/localization';
-import { Bebas_Neue, Fredoka } from 'next/font/google';
+import { Bebas_Neue, Comfortaa, Fredoka } from 'next/font/google';
 import Footer from './components/footer';
 import Header from './components/header';
 import './globals.css';
 
-const fredoka = Fredoka({
-  weight: '600',
+const comfort = Comfortaa({
+  weight: '700',
   subsets: ['latin'],
   display: 'swap',
 });
@@ -25,11 +25,14 @@ export default function RootLayout({
 }) {
   return (
     <ILocalizationProvider>
-      <html lang="en" className={`${fredoka.className} bg-green-custom`}>
-        <body className="min-h-screen">
+      <html
+        lang="en"
+        className={`${comfort.className} bg-gray-800 lg:bg-green-custom`}
+      >
+        <body className="flex flex-col min-h-screen justify-between">
           <AuthContextProvider>
             <Header />
-            {children}
+            <main className="my-auto pt-16">{children}</main>
             <Footer />
           </AuthContextProvider>
         </body>
