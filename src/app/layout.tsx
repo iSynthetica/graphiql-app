@@ -25,13 +25,14 @@ export default function RootLayout({
 }) {
   return (
     <ILocalizationProvider>
-      <html lang="en" className={`${comfort.className} bg-gray-800 lg:bg-green-custom`}>
-        <body className='flex flex-col min-h-screen justify-between'>
+      <html
+        lang="en"
+        className={`${comfort.className} bg-gray-800 lg:bg-green-custom`}
+      >
+        <body className="flex flex-col min-h-screen justify-between">
           <AuthContextProvider>
             <Header />
-            <main className='my-auto pt-16'>
-            {children}
-            </ main>
+            <main className="my-auto pt-16">{children}</main>
             <Footer />
           </AuthContextProvider>
         </body>

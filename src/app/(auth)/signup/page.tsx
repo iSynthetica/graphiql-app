@@ -46,9 +46,7 @@ const SignUp = () => {
     return router.push('/');
   };
   return (
-    <div
-      className={`flex justify-center text-white items-center w-screen`}
-    >
+    <div className={`flex justify-center text-white items-center w-screen`}>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-1/3 min-w-[433px] pt-8 pb-10 bg-gray-800 mx-auto px-16  flex flex-col gap-6 rounded-3xl border-gray-800 border-2"
@@ -91,9 +89,7 @@ const SignUp = () => {
             autoComplete="new-password"
           />
           {errors.password && (
-            <p
-              className="text-red-500 text-xs absolute left-0 -bottom-5 inline"
-            >
+            <p className="text-red-500 text-xs absolute left-0 -bottom-5 inline">
               {errors.password?.message}
             </p>
           )}
