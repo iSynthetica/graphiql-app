@@ -1,22 +1,25 @@
 'use client';
-import { useAppSelector } from '@/redux/hook';
-import Link from 'next/link';
-import CoolButton from './components/lib/coolButton';
-import { useContext } from 'react';
+import { useAuthContext } from '@/context/AuthContext';
 import { ILocalizationContext } from '@/localization';
-import { Source_Sans_3 } from 'next/font/google';
+import { IAuthContextValue } from '@/types/interfaces';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useContext, useEffect } from 'react';
+import CoolButton from './components/lib/coolButton';
 
-type WelcomePropsType = {
-  params: { isAuthorized: boolean };
-};
+const WelcomePage = () => {
+  const { user } = useAuthContext() as IAuthContextValue;
+  const router = useRouter();
 
-const WelcomeProps: WelcomePropsType = {
-  params: { isAuthorized: true },
-};
-const WelcomePage = (WelcomeProps: WelcomePropsType) => {
-  const { isAuthorized } = WelcomeProps.params;
+  useEffect(() => {
+    if (router && !user) {
+      router.push('/');
+    }
+  }, [user, router]);
+
   const { language, localization, setLanguage } =
     useContext(ILocalizationContext);
+
   return (
     <main>
       <div className="min-h-[90vh] flex items-center justify-center bg-green-custom-800 text-white">
@@ -24,7 +27,7 @@ const WelcomePage = (WelcomeProps: WelcomePropsType) => {
           <h1 className="text-7xl font-bold mb-4">
             {localization[language].greeting}
           </h1>
-          {isAuthorized ? (
+          {user ? (
             <>
               <p className="text-3xl mb-4">
                 {localization[language].authorizedStatusPositive}

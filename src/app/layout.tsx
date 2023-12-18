@@ -1,9 +1,10 @@
 'use client';
+import { AuthContextProvider } from '@/context/AuthContext';
 import { ILocalizationProvider } from '@/localization';
+import { Bebas_Neue, Fredoka } from 'next/font/google';
 import Footer from './components/footer';
 import Header from './components/header';
 import './globals.css';
-import { Fredoka, Bebas_Neue, Roboto_Condensed } from 'next/font/google';
 import AppProvider from '@/redux/AppProvider';
 
 const fredoka = Fredoka({
@@ -28,9 +29,11 @@ export default function RootLayout({
       <ILocalizationProvider>
         <html lang="en" className={`${fredoka.className} bg-green-custom`}>
           <body className="min-h-screen">
-            <Header />
-            {children}
-            <Footer />
+            <AuthContextProvider>
+              <Header />
+              {children}
+              <Footer />
+            </AuthContextProvider>
           </body>
         </html>
       </ILocalizationProvider>

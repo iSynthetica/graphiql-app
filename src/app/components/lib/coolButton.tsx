@@ -4,6 +4,7 @@ interface CoolButtonProps {
   color: string;
   text: string;
   type: 'submit' | 'reset' | 'button' | undefined;
+  disabled?: boolean;
 }
 
 const CoolButton = ({ color, text, type }: CoolButtonProps) => {
