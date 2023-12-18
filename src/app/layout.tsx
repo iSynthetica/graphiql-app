@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { ILocalizationProvider } from '@/localization';
 import Footer from './components/footer';
 import Header from './components/header';

@@ -111,8 +111,4 @@ const dummyResponseObject = [
     ],
   },
 ];
-;
-;
-
-
 export const dummyResponse = JSON.stringify(dummyResponseObject, null, 2);

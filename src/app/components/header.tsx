@@ -13,8 +13,8 @@ const sourse = Source_Sans_3({
 
 const Header = () => {
   const [isSticky, setIsSticky] = useState(false);
-  const {language, localization, setLanguage} = useContext(ILocalizationContext);
-
+  const { language, localization, setLanguage } =
+    useContext(ILocalizationContext);
 
   const handleScroll = () => {
     const scrollPosition = window.scrollY;
@@ -40,7 +40,9 @@ const Header = () => {
     >
       <div className="container mx-auto flex justify-between items-center h-full">
         <Link href="/" className="text-white text-xl font-bold">
-          <span  className={sourse.className}>{localization[language].welcomePage}</span>
+          <span className={sourse.className}>
+            {localization[language].welcomePage}
+          </span>
         </Link>
         <div className="text-white">
           <select
@@ -55,7 +57,9 @@ const Header = () => {
           </select>
         </div>
         <Link href="/signout" className="text-white text-xl font-bold">
-        <span  className={sourse.className}>{localization[language].signOut}</span>
+          <span className={sourse.className}>
+            {localization[language].signOut}
+          </span>
         </Link>
       </div>
     </header>

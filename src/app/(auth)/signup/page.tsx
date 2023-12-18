@@ -23,7 +23,8 @@ const SignUp = () => {
     resolver: yupResolver(validationSchema),
     mode: 'onBlur',
   });
-  const {language, localization, setLanguage} = useContext(ILocalizationContext);
+  const { language, localization, setLanguage } =
+    useContext(ILocalizationContext);
   const onSubmit = async () => {
     await validationSchema.validate({ abortEarly: false });
     console.log('send to');
@@ -38,7 +39,9 @@ const SignUp = () => {
         className="min-w-[25%] pt-8 pb-10 bg-green-grey-custom mx-auto px-16  flex flex-col gap-6 rounded-3xl border-gray-800 border-2"
       >
         <div>
-          <h1 className="text-4xl text-center">{localization[language].signUp}</h1>
+          <h1 className="text-4xl text-center">
+            {localization[language].signUp}
+          </h1>
         </div>
         <div className="relative">
           <label className="pl-1 text-xl">{localization[language].email}</label>
@@ -57,7 +60,9 @@ const SignUp = () => {
         </div>
 
         <div className="relative">
-          <label className="pl-1 text-xl">{localization[language].password}</label>
+          <label className="pl-1 text-xl">
+            {localization[language].password}
+          </label>
           <input
             className="block w-[100%] rounded-2xl text-gray-800 border-gray-800 border-2 text-xl p-2"
             {...register('password')}
@@ -72,7 +77,9 @@ const SignUp = () => {
           )}
         </div>
         <div className="relative">
-          <label className="pl-1 text-xl">{localization[language].confirmPassword}</label>
+          <label className="pl-1 text-xl">
+            {localization[language].confirmPassword}
+          </label>
           <input
             className="block w-[100%] rounded-2xl text-gray-800 border-gray-800 border-2 text-xl p-2"
             {...register('confirmPassword')}
@@ -87,7 +94,11 @@ const SignUp = () => {
           )}
         </div>
         <div className="flex justify-center">
-          <CoolButton color="bg-gray-800" text={localization[language].signUp} type="submit" />
+          <CoolButton
+            color="bg-gray-800"
+            text={localization[language].signUp}
+            type="submit"
+          />
         </div>
       </form>
     </div>
