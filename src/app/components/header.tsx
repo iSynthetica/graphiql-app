@@ -53,20 +53,7 @@ const Header = () => {
           </Link>
         </div>
         <div className="lg:flex justify-between w-80 mx-auto lg:mr-0  items-center">
-          <div className="text-white flex items-center justify-center lg:block">
-            <select
-              id="language"
-              className="focus:outline-none bg-transparent text-white"
-              value={language}
-              onChange={(e) =>
-                handleLanguageChange(e.target.value as Languages)
-              }
-            >
-              <option value="EN">EN</option>
-              <option value="UA">UA</option>
-              <option value="RU">RU</option>
-            </select>
-          </div>
+          
           {user ? (
             <>
               <Link
@@ -115,6 +102,20 @@ const Header = () => {
               )}
             </>
           )}
+          <div className="text-white flex items-center justify-center lg:block">
+            <select
+              id="language"
+              className="focus:outline-none bg-transparent text-white"
+              value={language}
+              onChange={(e) =>
+                handleLanguageChange(e.target.value as Languages)
+              }
+            >
+              <option value="EN">EN</option>
+              <option value="UA">UA</option>
+              <option value="RU">RU</option>
+            </select>
+          </div>
         </div>
       </div>
     </header>
