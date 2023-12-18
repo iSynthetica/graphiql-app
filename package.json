@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "prettier:fix": "prettier --write .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "vitest"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
@@ -19,8 +20,10 @@
     "@types/firebase": "^3.2.1",
     "@typescript-eslint/eslint-plugin": "^6.13.2",
     "firebase": "^10.7.1",
+    "firebase-admin": "^12.0.0",
     "next": "14.0.4",
     "next-redux-wrapper": "^8.1.0",
+    "nookies": "^2.5.2",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.49.0",

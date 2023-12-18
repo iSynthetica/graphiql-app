@@ -1,16 +1,17 @@
 'use client';
+
 import firebase_app from '@/app/firebase/config';
 import { IAuthContextProviderProps } from '@/types/interfaces';
 import { FirebaseError } from 'firebase/app';
 import {
   createUserWithEmailAndPassword,
   getAuth,
-  // onAuthStateChanged,
   onIdTokenChanged,
   signInWithEmailAndPassword,
   signOut,
   User,
 } from 'firebase/auth';
+import nookies from 'nookies';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const auth = getAuth(firebase_app);
@@ -52,12 +53,16 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
 
   useEffect(() => {
     // const unsubscribeAuthState = onAuthStateChanged(auth, (user) => {
-    const unsubscribeTokenChanged = onIdTokenChanged(auth, (user) => {
+
+    const unsubscribeTokenChanged = onIdTokenChanged(auth, async (user) => {
       if (user) {
+        const token = await user.getIdToken();
+        nookies.set(undefined, 'token', token, { path: '/' });
+
         setUser(user);
       } else {
         setUser(null);
-        logout();
+        nookies.set(undefined, 'token', '', { path: '/' });
       }
       setLoading(false);
     });
@@ -68,7 +73,7 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
     //   }
     // });
 
-    //return () => unsubscribeAuthState();
+    // return () => unsubscribeAuthState();
     return unsubscribeTokenChanged;
   }, [user]);
 
@@ -82,3 +87,5 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
 export const useAuth = () => {
   return useContext(AuthContext);
 };
+
+import { GetServerSidePropsContext } from 'next';
