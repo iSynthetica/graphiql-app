@@ -12,12 +12,6 @@ import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import CoolButton from '../../components/lib/coolButton';
 
-const nunito = Nunito({
-  weight: '800',
-  subsets: ['latin'],
-  display: 'swap',
-});
-
 const Login = () => {
   const { user, signIn } = useAuth() as IAuthContextValue;
   const {
@@ -56,11 +50,11 @@ const Login = () => {
 
   return (
     <div
-      className={`min-h-[90vh] flex justify-center text-white items-center w-screen ${nunito.className}`}
+      className={`flex justify-center text-white items-center w-screen `}
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="min-w-[25%] pt-8 pb-10 bg-green-grey-custom mx-auto px-16  flex flex-col gap-6 rounded-3xl border-gray-800 border-2"
+        className="w-1/3 min-w-[433px] pt-8 pb-10 bg-gray-800 mx-auto px-16  flex flex-col gap-6 rounded-3xl border-gray-800 border-2"
         noValidate
       >
         <div>
@@ -102,16 +96,16 @@ const Login = () => {
           />
           {errors.password && (
             <p
-              className="text-red-500 text-xs absolute left-0 -bottom-8
+              className="text-red-500 text-xs absolute left-0 -bottom-5
             "
             >
               {errors.password?.message}
             </p>
           )}
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-4">
           <CoolButton
-            color="bg-gray-800"
+            color="bg-green-custom"
             text={localization[language].signIn}
             type="submit"
           />
@@ -156,7 +150,7 @@ const Login = () => {
         </button>
         <p className="text-sm font-semibold">
           {localization[language].dontHaveAccount}
-          <Link href="/signup" className="text-gray-800 px-2 text-sm">
+          <Link href="/signup" className="text-green-custom px-2 text-sm">
             {localization[language].signUp}
           </Link>
         </p>

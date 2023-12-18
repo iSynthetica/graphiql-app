@@ -10,12 +10,6 @@ import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import CoolButton from '../../components/lib/coolButton';
 
-const nunito = Nunito({
-  weight: '800',
-  subsets: ['latin'],
-  display: 'swap',
-});
-
 const SignUp = () => {
   const {
     register,
@@ -53,11 +47,11 @@ const SignUp = () => {
   };
   return (
     <div
-      className={`min-h-[90vh] flex justify-center text-white items-center w-screen ${nunito.className}`}
+      className={`flex justify-center text-white items-center w-screen`}
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="min-w-[25%] pt-8 pb-10 bg-green-grey-custom mx-auto px-16  flex flex-col gap-6 rounded-3xl border-gray-800 border-2"
+        className="w-1/3 min-w-[433px] pt-8 pb-10 bg-gray-800 mx-auto px-16  flex flex-col gap-6 rounded-3xl border-gray-800 border-2"
         noValidate
       >
         <div>
@@ -98,8 +92,7 @@ const SignUp = () => {
           />
           {errors.password && (
             <p
-              className="text-red-500 text-xs absolute left-0 -bottom-8
-            "
+              className="text-red-500 text-xs absolute left-0 -bottom-5 inline"
             >
               {errors.password?.message}
             </p>
@@ -125,7 +118,7 @@ const SignUp = () => {
         </div>
         <div className="flex justify-center">
           <CoolButton
-            color="bg-gray-800"
+            color="bg-green-custom"
             text={localization[language].signUp}
             type="submit"
           />

@@ -21,10 +21,9 @@ const WelcomePage = () => {
     useContext(ILocalizationContext);
 
   return (
-    <main>
-      <div className="min-h-[90vh] flex items-center justify-center bg-green-custom-800 text-white">
+      <div className="flex items-center justify-center bg-green-custom-800 text-white lg:text-gray-800">
         <div className="text-center">
-          <h1 className="text-7xl font-bold mb-4">
+          <h1 className="text-5xl font-bold mb-4">
             {localization[language].greeting}
           </h1>
           {user ? (
@@ -64,7 +63,6 @@ const WelcomePage = () => {
           )}
         </div>
       </div>
-    </main>
   );
 };
 
