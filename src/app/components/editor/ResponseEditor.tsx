@@ -1,9 +1,12 @@
 import { BeforeMount, Editor, Monaco } from '@monaco-editor/react';
 import { cn } from '@/utils/cn';
 import styles from './editor.module.scss';
-import { dummyResponse } from '@/data/dummyResponse';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 const ResponseEditor = () => {
+  const { responseContent } = useSelector((state: RootState) => state.editor);
+
   const handleEditorWillMount: BeforeMount = (monaco: Monaco) => {
     monaco.editor.defineTheme('customTheme', {
       base: 'vs-dark',
@@ -21,7 +24,7 @@ const ResponseEditor = () => {
         height="600px"
         language="json"
         beforeMount={handleEditorWillMount}
-        value={dummyResponse}
+        value={responseContent}
         options={{
           lineNumbers: 'off',
           readOnly: true,

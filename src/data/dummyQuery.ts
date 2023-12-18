@@ -1,14 +1,19 @@
 export const dummyQuery = `query ($limit: Int!) {
-  categories(limit: $limit) {
+  products(limit: $limit) {
     id
     name
     slug
-    parent
-    description
-    display
-    image
-    menu_order
-    count
+    permalink
+    price
+    categories {
+      id
+      name
+      slug
+    }
+    images {
+      id
+      name
+      src
+    }
   }
-}
-`;
+}`;
