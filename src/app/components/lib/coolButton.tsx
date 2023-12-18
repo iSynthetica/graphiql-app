@@ -32,7 +32,7 @@ const CoolButton = ({ color, text, type }: CoolButtonProps) => {
         return (
           <div
             key={index}
-            className={`whitespace-pre transform text-white ${rotateClass} ease-in-out pr-px group-hover:mx-1 group-hover:text-2xl`}
+            className={`whitespace-pre transform text-gray-800 ${rotateClass} ease-in-out pr-px group-hover:mx-1 group-hover:text-2xl`}
           >
             {letter}
           </div>
