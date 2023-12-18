@@ -18,14 +18,17 @@ const Header = () => {
   const { user, logout } = useAuth() as IAuthContextValue;
   const [isSticky, setIsSticky] = useState(false);
   const pathname = usePathname();
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
   const { language, localization, setLanguage } =
     useContext(ILocalizationContext);
+
   if (!pathname || typeof window === 'undefined') {
     return null;
   }

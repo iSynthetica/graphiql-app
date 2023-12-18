@@ -13,6 +13,8 @@ import {
 } from 'firebase/auth';
 import nookies from 'nookies';
 import { createContext, useContext, useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const auth = getAuth(firebase_app);
 export const AuthContext = createContext({});
@@ -23,6 +25,7 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const notify = () => toast('Wow so easy!');
 
   const logout = async () => {
     await signOut(auth);
@@ -63,6 +66,7 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
       } else {
         setUser(null);
         nookies.set(undefined, 'token', '', { path: '/' });
+        logout();
       }
       setLoading(false);
     });
@@ -87,5 +91,3 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
 export const useAuth = () => {
   return useContext(AuthContext);
 };
-
-import { GetServerSidePropsContext } from 'next';

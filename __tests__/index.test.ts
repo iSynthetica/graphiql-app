@@ -1,9 +1,6 @@
 import { describe, expect, test } from 'vitest';
-type Props = {
-	a:number,
-	b:number,
-}
-const add = (a:number, b:number) :number=> {
+
+const add = (a: number, b: number): number => {
   return a + b;
 };
 
