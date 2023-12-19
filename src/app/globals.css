@@ -15,6 +15,16 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
+
+.readOnlyEditor {
+  opacity: 0.7 !important;
+}
+.readOnlyEditor * {
+  background-color: transparent !important;
+}
+.readOnlyEditor .slider {
+  background-color: rgba(100, 100, 100, 0.4) !important;
+}
 .btn {
   color: blueviolet;
   padding: 0.5rem;

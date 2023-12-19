@@ -53,7 +53,6 @@ const Header = () => {
           </Link>
         </div>
         <div className="lg:flex justify-between w-80 mx-auto lg:mr-0  items-center">
-          
           {user ? (
             <>
               <Link
