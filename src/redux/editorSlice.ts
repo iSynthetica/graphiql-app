@@ -1,14 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { dummyQuery } from '@/data/dummyQuery';
+import { dummyQuery, dunmyHeaders, dummyVariables } from '@/data/dummyQuery';
 import { dummyResponse } from '@/data/dummyResponse';
 
 export interface EditorData {
   queryContent: string;
+  headersContent: string;
+  variablesContent: string;
   responseContent: string;
 }
 
 const initialState: EditorData = {
   queryContent: dummyQuery,
+  headersContent: dunmyHeaders,
+  variablesContent: dummyVariables,
   responseContent: dummyResponse,
 };
 

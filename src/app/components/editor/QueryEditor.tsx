@@ -10,27 +10,63 @@ import { useRef } from 'react';
 import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
 
 const QueryEditor = () => {
-  const { queryContent } = useSelector((state: RootState) => state.editor);
+  const { queryContent, headersContent, variablesContent } = useSelector(
+    (state: RootState) => state.editor
+  );
   const dispatch = useDispatch();
   const editorRef = useRef<undefined | editor.IStandaloneCodeEditor>();
+  const editorVarsRef = useRef<undefined | editor.IStandaloneCodeEditor>();
+  const editorHeadersRef = useRef<undefined | editor.IStandaloneCodeEditor>();
+
+  const handleEditorOnChange = (value: string | undefined) => {
+    console.log(value);
+  };
+
+  const handleEditorHeadersOnChange = (value: string | undefined) => {
+    console.log(value);
+  };
+
+  const handleEditorVarsOnChange = (value: string | undefined) => {
+    console.log(value);
+  };
 
   const handleEditorDidMount: OnMount = (editor, monaco) => {
     editorRef.current = editor;
   };
 
+  const handleEditorHeadersDidMount: OnMount = (editor, monaco) => {
+    editorVarsRef.current = editor;
+  };
+
+  const handleEditorVarsDidMount: OnMount = (editor, monaco) => {
+    editorHeadersRef.current = editor;
+  };
+
   const runQuery = () => {
+    // TODO: Implement query
+    console.log(editorRef.current?.getValue());
+  };
+
+  const runPrettier = () => {
+    // TODO: Implement prettier
     console.log(editorRef.current?.getValue());
   };
 
   return (
     <>
-      <div className={cn(styles.editorLeftCol)}>
-        <div className={styles.editorQueryContainer}>
+      <div className={cn(styles.editorQueryContainer, 'mb-2')}>
+        <div
+          className={cn(
+            'border-gray-800 border-2 rounded-2xl p-6',
+            styles.innerContainer
+          )}
+        >
           <Editor
-            height="500px"
+            height="350px"
             language="graphql"
             value={queryContent}
             onMount={handleEditorDidMount}
+            onChange={handleEditorOnChange}
             options={{
               minimap: {
                 enabled: false,
@@ -39,20 +75,66 @@ const QueryEditor = () => {
               renderLineHighlight: 'none',
             }}
           />
-          <button
-            className={cn(styles.btnEditor, styles.btnRunQuery)}
-            onClick={runQuery}
-            title="Run Query"
-          >
-            <FontAwesomeIcon icon={faPlay} />
-          </button>
-          <button
-            className={cn(styles.btnEditor, styles.btnPrettify)}
-            onClick={runQuery}
-            title="Run Query"
-          >
-            <FontAwesomeIcon icon={faMagicWandSparkles} />
-          </button>
+        </div>
+        <button
+          className={cn(styles.btnEditor, styles.btnRunQuery)}
+          onClick={runQuery}
+          title="Run Query"
+        >
+          <FontAwesomeIcon icon={faPlay} />
+        </button>
+        <button
+          className={cn(styles.btnEditor, styles.btnPrettify)}
+          onClick={runPrettier}
+          title="Run Query"
+        >
+          <FontAwesomeIcon icon={faMagicWandSparkles} />
+        </button>
+      </div>
+      <div className={cn(styles.editorQueryContainer, 'mb-2')}>
+        <div
+          className={cn(
+            'border-gray-800 border-2 rounded-2xl',
+            styles.innerContainer
+          )}
+        >
+          <Editor
+            height="100px"
+            language="json"
+            value={headersContent}
+            onMount={handleEditorHeadersDidMount}
+            onChange={handleEditorHeadersOnChange}
+            options={{
+              minimap: {
+                enabled: false,
+              },
+              scrollBeyondLastLine: false,
+              renderLineHighlight: 'none',
+            }}
+          />
+        </div>
+      </div>
+      <div className={styles.editorQueryContainer}>
+        <div
+          className={cn(
+            'border-gray-800 border-2 rounded-2xl p-6',
+            styles.innerContainer
+          )}
+        >
+          <Editor
+            height="100px"
+            language="json"
+            value={variablesContent}
+            onMount={handleEditorVarsDidMount}
+            onChange={handleEditorVarsOnChange}
+            options={{
+              minimap: {
+                enabled: false,
+              },
+              scrollBeyondLastLine: false,
+              renderLineHighlight: 'none',
+            }}
+          />
         </div>
       </div>
     </>

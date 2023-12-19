@@ -21,7 +21,7 @@ const ResponseEditor = () => {
     <div className={cn(styles.editorRightCol)}>
       <Editor
         className="readOnlyEditor"
-        height="500px"
+        height="669px"
         language="json"
         beforeMount={handleEditorWillMount}
         value={responseContent}
