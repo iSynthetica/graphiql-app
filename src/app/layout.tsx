@@ -2,6 +2,8 @@
 import { AuthContextProvider } from '@/context/AuthContext';
 import { ILocalizationProvider } from '@/localization';
 import { Bebas_Neue, Fredoka } from 'next/font/google';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Footer from './components/footer';
 import Header from './components/header';
 import './globals.css';
@@ -32,6 +34,7 @@ export default function RootLayout({
             {children}
             <Footer />
           </AuthContextProvider>
+          <ToastContainer position="bottom-left" />
         </body>
       </html>
     </ILocalizationProvider>

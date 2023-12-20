@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import CoolButton from '../../components/lib/coolButton';
+import { signUp } from '@/app/firebase/config';
 
 const nunito = Nunito({
   weight: '800',
@@ -27,7 +28,7 @@ const SignUp = () => {
   });
   const router = useRouter();
 
-  const { user, signUp } = useAuth() as IAuthContextValue;
+  const { user } = useAuth() as IAuthContextValue;
   const { language, localization } = useContext(ILocalizationContext);
 
   useEffect(() => {

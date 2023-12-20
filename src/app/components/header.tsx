@@ -7,6 +7,7 @@ import { Source_Sans_3 } from 'next/font/google';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
+import { logout } from '../firebase/config';
 
 const sourse = Source_Sans_3({
   weight: '800',
@@ -15,7 +16,7 @@ const sourse = Source_Sans_3({
 });
 
 const Header = () => {
-  const { user, logout } = useAuth() as IAuthContextValue;
+  const { user } = useAuth() as IAuthContextValue;
   const [isSticky, setIsSticky] = useState(false);
   const pathname = usePathname();
 

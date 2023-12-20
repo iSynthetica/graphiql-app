@@ -1,6 +1,15 @@
 import { FirebaseError, getApps, initializeApp } from 'firebase/app';
-import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
-import { collection, getFirestore, query, where } from 'firebase/firestore';
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+} from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import nookies from 'nookies';
+import { toast } from 'react-toastify';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -17,18 +26,63 @@ let firebase_app =
 const auth = getAuth(firebase_app);
 const db = getFirestore(firebase_app);
 
+const logout = () => {
+  signOut(auth);
+  toast.success('Logout successfully');
+  nookies.destroy(undefined, 'token', { path: '/' });
+};
+
+const signUp = async (email: string, password: string) => {
+  let result = null,
+    error = null;
+  try {
+    result = await createUserWithEmailAndPassword(auth, email, password);
+    toast.success('Sign up successfully');
+
+    const user = auth.currentUser;
+    const token = await user?.getIdToken();
+    nookies.set(undefined, 'token', token!, { path: '/' });
+  } catch (err) {
+    toast.error('Sign up failed');
+    console.error(err);
+  }
+  return { result, error };
+};
+
+const signIn = async (email: string, password: string) => {
+  let result = null,
+    error = null;
+  try {
+    result = await signInWithEmailAndPassword(auth, email, password);
+    const user = auth.currentUser;
+    const token = await user?.getIdToken();
+    toast.success('Sign in successfully');
+    nookies.set(undefined, 'token', token!, { path: '/' });
+  } catch (err: FirebaseError | unknown) {
+    if (err instanceof FirebaseError) {
+      toast.error('Sign in failed');
+      console.error(err);
+    }
+  }
+  return { result, error };
+};
+
 const signInWithGoogle = async () => {
   const googleProvider = new GoogleAuthProvider();
   try {
     const res = await signInWithPopup(auth, googleProvider);
-    const user = res.user;
-    const q = query(collection(db, 'users'), where('uid', '==', user.uid));
+    const user = auth.currentUser;
+    const token = await user?.getIdToken();
+    nookies.set(undefined, 'token', token!, { path: '/' });
+    toast.success('Sign in successfully');
+    return res.user;
   } catch (err: FirebaseError | unknown) {
     if (err instanceof FirebaseError) {
-      console.log(err);
+      toast.error('Sign in failed');
+      console.error(err);
     }
   }
 };
 
-export { auth, db, signInWithGoogle };
+export { auth, db, logout, signIn, signInWithGoogle, signUp };
 export default firebase_app;

@@ -1,20 +1,11 @@
 'use client';
 
-import firebase_app from '@/app/firebase/config';
+import firebase_app, { logout } from '@/app/firebase/config';
 import { IAuthContextProviderProps } from '@/types/interfaces';
-import { FirebaseError } from 'firebase/app';
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  onIdTokenChanged,
-  signInWithEmailAndPassword,
-  signOut,
-  User,
-} from 'firebase/auth';
-import nookies from 'nookies';
+import { isTokenExpired } from '@/utils/isTokenExpired';
+import { User, getAuth } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const auth = getAuth(firebase_app);
 export const AuthContext = createContext({});
@@ -25,64 +16,49 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const notify = () => toast('Wow so easy!');
-
-  const logout = async () => {
-    await signOut(auth);
-  };
-
-  const signUp = async (email: string, password: string) => {
-    let result = null,
-      error = null;
-    try {
-      result = await createUserWithEmailAndPassword(auth, email, password);
-    } catch (err) {
-      console.error(err);
-    }
-    return { result, error };
-  };
-  const signIn = async (email: string, password: string) => {
-    let result = null,
-      error = null;
-    try {
-      result = await signInWithEmailAndPassword(auth, email, password);
-    } catch (err: FirebaseError | unknown) {
-      if (err instanceof FirebaseError) {
-        console.log(err);
-      }
-    }
-    return { result, error };
-  };
+  const router = useRouter();
 
   useEffect(() => {
-    // const unsubscribeAuthState = onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      setUser(null);
+      setLoading(false);
+    }
 
-    const unsubscribeTokenChanged = onIdTokenChanged(auth, async (user) => {
+    return auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        setUser(null);
+        setLoading(false);
+      } else {
+        // const token = await user.getIdToken();
+        setUser(user);
+        setLoading(false);
+      }
+    });
+  }, [user, router]);
+
+  useEffect(() => {
+    const checkTokenExpiration = async () => {
+      const user = auth.currentUser;
       if (user) {
         const token = await user.getIdToken();
-        nookies.set(undefined, 'token', token, { path: '/' });
+        const isExpired = isTokenExpired(token);
+        console.log('isExpired', isExpired);
 
-        setUser(user);
-      } else {
-        setUser(null);
-        nookies.set(undefined, 'token', '', { path: '/' });
-        logout();
+        if (isExpired) {
+          logout();
+          router.push('/signin');
+        }
       }
-      setLoading(false);
-    });
+    };
 
-    // const unsubscribeTokenChanged = onIdTokenChanged(auth, (user) => {
-    //   if (!user) {
-    //     logout();
-    //   }
-    // });
+    const interval = 4 * 60 * 1000;
+    const handle = setInterval(checkTokenExpiration, 5000);
 
-    // return () => unsubscribeAuthState();
-    return unsubscribeTokenChanged;
-  }, [user]);
+    return () => clearInterval(handle);
+  }, [router]);
 
   return (
-    <AuthContext.Provider value={{ user, loading, signUp, signIn, logout }}>
+    <AuthContext.Provider value={{ user }}>
       {loading ? <div>Loading...</div> : children}
     </AuthContext.Provider>
   );

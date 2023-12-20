@@ -1,5 +1,5 @@
 'use client';
-import { signInWithGoogle } from '@/app/firebase/config';
+import { signIn, signInWithGoogle } from '@/app/firebase/config';
 import { useAuth } from '@/context/AuthContext';
 import { ILocalizationContext } from '@/localization';
 import { IAuthContextValue } from '@/types/interfaces';
@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import CoolButton from '../../components/lib/coolButton';
+import { toast } from 'react-toastify';
 
 const nunito = Nunito({
   weight: '800',
@@ -19,7 +20,7 @@ const nunito = Nunito({
 });
 
 const Login = () => {
-  const { user, signIn } = useAuth() as IAuthContextValue;
+  const { user } = useAuth() as IAuthContextValue;
   const {
     register,
     handleSubmit,
@@ -37,6 +38,7 @@ const Login = () => {
       router.push('/');
     }
   }, [user, router]);
+
   if (user) {
     return null;
   }
@@ -48,7 +50,7 @@ const Login = () => {
     });
 
     if (error) {
-      return console.log(error);
+      return console.error(error);
     }
 
     return router.push('/');

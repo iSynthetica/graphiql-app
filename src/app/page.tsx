@@ -4,21 +4,21 @@ import { ILocalizationContext } from '@/localization';
 import { IAuthContextValue } from '@/types/interfaces';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useContext, useEffect } from 'react';
+import { useContext, useLayoutEffect } from 'react';
 import CoolButton from './components/lib/coolButton';
+import { isAuthenticated } from '../utils/auth';
 
 const WelcomePage = () => {
   const { user } = useAuthContext() as IAuthContextValue;
   const router = useRouter();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (router && !user) {
       router.push('/');
     }
   }, [user, router]);
 
-  const { language, localization, setLanguage } =
-    useContext(ILocalizationContext);
+  const { language, localization } = useContext(ILocalizationContext);
 
   return (
     <main>
