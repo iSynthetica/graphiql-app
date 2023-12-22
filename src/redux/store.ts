@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import commonReducer from './commonSlice';
+import editorReducer from './editorSlice';
 import { createWrapper } from 'next-redux-wrapper';
 
 export const rootReducer = combineReducers({
   common: commonReducer,
+  editor: editorReducer,
 });
 
 export const store = configureStore({

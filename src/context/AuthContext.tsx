@@ -29,7 +29,6 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
         setUser(null);
         setLoading(false);
       } else {
-        // const token = await user.getIdToken();
         setUser(user);
         setLoading(false);
       }
@@ -42,7 +41,6 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
       if (user) {
         const token = await user.getIdToken();
         const isExpired = isTokenExpired(token);
-        console.log('isExpired', isExpired);
 
         if (isExpired) {
           logout();

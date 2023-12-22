@@ -5,19 +5,11 @@ import { ILocalizationContext } from '@/localization';
 import { IAuthContextValue } from '@/types/interfaces';
 import { FormDataSchema, validationSchema } from '@/utils/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Nunito } from 'next/font/google';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useContext, useEffect } from 'react';
+import { redirect, useRouter } from 'next/navigation';
+import { useContext, useLayoutEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import CoolButton from '../../components/lib/coolButton';
-import { toast } from 'react-toastify';
-
-const nunito = Nunito({
-  weight: '800',
-  subsets: ['latin'],
-  display: 'swap',
-});
 
 const Login = () => {
   const { user } = useAuth() as IAuthContextValue;
@@ -30,18 +22,15 @@ const Login = () => {
     mode: 'onBlur',
   });
   const router = useRouter();
-  const { language, localization, setLanguage } =
-    useContext(ILocalizationContext);
+  const { language, localization } = useContext(ILocalizationContext);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (user) {
-      router.push('/');
+      router.push('/editor');
+      //redirect('/editor');
     }
-  }, [user, router]);
+  }, [router, user]);
 
-  if (user) {
-    return null;
-  }
   const onSubmit = async (data: FormDataSchema) => {
     const { error } = await signIn(data.email, data.password);
 
@@ -53,16 +42,15 @@ const Login = () => {
       return console.error(error);
     }
 
+    // redirect('/');
     return router.push('/');
   };
 
   return (
-    <div
-      className={`min-h-[90vh] flex justify-center text-white items-center w-screen ${nunito.className}`}
-    >
+    <div className={`flex justify-center text-white items-center w-screen `}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="min-w-[25%] pt-8 pb-10 bg-green-grey-custom mx-auto px-16  flex flex-col gap-6 rounded-3xl border-gray-800 border-2"
+        className="w-1/3 min-w-[433px] pt-8 pb-10 bg-gray-800 mx-auto px-16  flex flex-col gap-6 rounded-3xl border-gray-800 border-2"
         noValidate
       >
         <div>
@@ -104,16 +92,16 @@ const Login = () => {
           />
           {errors.password && (
             <p
-              className="text-red-500 text-xs absolute left-0 -bottom-8
+              className="text-red-500 text-xs absolute left-0 -bottom-5
             "
             >
               {errors.password?.message}
             </p>
           )}
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-4">
           <CoolButton
-            color="bg-gray-800"
+            color="bg-green-custom"
             text={localization[language].signIn}
             type="submit"
           />
@@ -158,7 +146,7 @@ const Login = () => {
         </button>
         <p className="text-sm font-semibold">
           {localization[language].dontHaveAccount}
-          <Link href="/signup" className="text-gray-800 px-2 text-sm">
+          <Link href="/signup" className="text-green-custom px-2 text-sm">
             {localization[language].signUp}
           </Link>
         </p>

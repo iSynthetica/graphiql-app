@@ -5,17 +5,11 @@ import { IAuthContextValue } from '@/types/interfaces';
 import { FormDataSchema, validationSchema } from '@/utils/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Nunito } from 'next/font/google';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import CoolButton from '../../components/lib/coolButton';
 import { signUp } from '@/app/firebase/config';
-
-const nunito = Nunito({
-  weight: '800',
-  subsets: ['latin'],
-  display: 'swap',
-});
 
 const SignUp = () => {
   const {
@@ -34,11 +28,12 @@ const SignUp = () => {
   useEffect(() => {
     if (user) {
       router.push('/');
+      // redirect('/editor');
     }
   }, [user, router]);
-  if (user) {
-    return null;
-  }
+  // if (user) {
+  //   return null;
+  // }
   const onSubmit = async (data: FormDataSchema) => {
     const { error } = await signUp(data.email, data.password);
 
@@ -49,16 +44,14 @@ const SignUp = () => {
     if (error) {
       return console.log(error);
     }
-
+    // redirect('/');
     return router.push('/');
   };
   return (
-    <div
-      className={`min-h-[90vh] flex justify-center text-white items-center w-screen ${nunito.className}`}
-    >
+    <div className={`flex justify-center text-white items-center w-screen`}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="min-w-[25%] pt-8 pb-10 bg-green-grey-custom mx-auto px-16  flex flex-col gap-6 rounded-3xl border-gray-800 border-2"
+        className="w-1/3 min-w-[433px] pt-8 pb-10 bg-gray-800 mx-auto px-16  flex flex-col gap-6 rounded-3xl border-gray-800 border-2"
         noValidate
       >
         <div>
@@ -98,10 +91,7 @@ const SignUp = () => {
             autoComplete="new-password"
           />
           {errors.password && (
-            <p
-              className="text-red-500 text-xs absolute left-0 -bottom-8
-            "
-            >
+            <p className="text-red-500 text-xs absolute left-0 -bottom-5 inline">
               {errors.password?.message}
             </p>
           )}
@@ -126,7 +116,7 @@ const SignUp = () => {
         </div>
         <div className="flex justify-center">
           <CoolButton
-            color="bg-gray-800"
+            color="bg-green-custom"
             text={localization[language].signUp}
             type="submit"
           />

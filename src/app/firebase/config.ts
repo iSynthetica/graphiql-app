@@ -28,8 +28,8 @@ const db = getFirestore(firebase_app);
 
 const logout = () => {
   signOut(auth);
-  toast.success('Logout successfully');
   nookies.destroy(undefined, 'token', { path: '/' });
+  toast.success('Logout successfully');
 };
 
 const signUp = async (email: string, password: string) => {
