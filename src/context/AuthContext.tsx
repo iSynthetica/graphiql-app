@@ -33,7 +33,7 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
         setLoading(false);
       }
     });
-  }, [user, router]);
+  }, [user]);
 
   useEffect(() => {
     const checkTokenExpiration = async () => {
@@ -50,7 +50,7 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
     };
 
     const interval = 4 * 60 * 1000;
-    const handle = setInterval(checkTokenExpiration, 5000);
+    const handle = setInterval(checkTokenExpiration, interval);
 
     return () => clearInterval(handle);
   }, [router]);

@@ -3,7 +3,7 @@ import { useAuthContext } from '@/context/AuthContext';
 import { ILocalizationContext } from '@/localization';
 import { IAuthContextValue } from '@/types/interfaces';
 import Link from 'next/link';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useContext, useLayoutEffect } from 'react';
 import CoolButton from './components/lib/coolButton';
 import { isAuthenticated } from '../utils/auth';
@@ -15,13 +15,10 @@ const WelcomePage = () => {
   useLayoutEffect(() => {
     if (!user) {
       router.push('/');
-      //redirect('/');
     } else {
       router.push('/editor');
-
-      //redirect('/editor');
     }
-  }, [user, router]);
+  }, [router, user]);
 
   const { language, localization } = useContext(ILocalizationContext);
 
