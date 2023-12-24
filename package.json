@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prettier:fix": "prettier --write .",
-    "prepare": "husky install",
-    "test": "vitest"
+    "prepare": "husky install"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
