@@ -8,12 +8,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useRef } from 'react';
 import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
+import { prettifyGraphQLQuery } from '@/utils/prettier';
+import { changeQueryContent } from '@/redux/editorSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
 
 const QueryEditor = () => {
-  const { queryContent, headersContent, variablesContent } = useSelector(
+  const { queryContent, headersContent, variablesContent } = useAppSelector(
     (state: RootState) => state.editor
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const editorRef = useRef<undefined | editor.IStandaloneCodeEditor>();
   const editorVarsRef = useRef<undefined | editor.IStandaloneCodeEditor>();
   const editorHeadersRef = useRef<undefined | editor.IStandaloneCodeEditor>();
@@ -48,8 +51,12 @@ const QueryEditor = () => {
   };
 
   const runPrettier = () => {
-    // TODO: Implement prettier
-    console.log(editorRef.current?.getValue());
+    const updateQuery = prettifyGraphQLQuery(editorRef.current?.getValue());
+    if (updateQuery) {
+      dispatch(changeQueryContent(updateQuery));
+      editorRef.current?.setValue(updateQuery);
+    }
+    //console.log(editorRef.current?.getValue());
   };
 
   return (
@@ -86,7 +93,7 @@ const QueryEditor = () => {
         <button
           className={cn(styles.btnEditor, styles.btnPrettify)}
           onClick={runPrettier}
-          title="Run Query"
+          title="Prettify query"
         >
           <FontAwesomeIcon icon={faMagicWandSparkles} />
         </button>
