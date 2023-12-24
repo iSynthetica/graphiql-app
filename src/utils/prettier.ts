@@ -1,5 +1,4 @@
 export function prettifyGraphQLQuery(query: string | undefined) {
-
   if (!query) {
     return query;
   }
@@ -7,10 +6,9 @@ export function prettifyGraphQLQuery(query: string | undefined) {
   let prettifiedQuery = '';
   let indentationLevel = 0;
 
-
   lines.forEach((line) => {
     if (indentationLevel < 0) {
-        return query;
+      return query;
     }
     const trimmedLine = line.trim();
 
