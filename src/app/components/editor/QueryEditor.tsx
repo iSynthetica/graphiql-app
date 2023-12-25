@@ -6,13 +6,14 @@ import { cn } from '@/utils/cn';
 import styles from './editor.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
 
 const QueryEditor = () => {
   const { queryContent, headersContent, variablesContent } = useSelector(
     (state: RootState) => state.editor
   );
+  const [tab, setTab] = useState<'headers' | 'variables'>('headers');
   const dispatch = useDispatch();
   const editorRef = useRef<undefined | editor.IStandaloneCodeEditor>();
   const editorVarsRef = useRef<undefined | editor.IStandaloneCodeEditor>();
@@ -91,7 +92,27 @@ const QueryEditor = () => {
           <FontAwesomeIcon icon={faMagicWandSparkles} />
         </button>
       </div>
-      <div className={cn(styles.editorQueryContainer, 'mb-2')}>
+      <nav className={styles.editorTabNav}>
+        <ul>
+          <li
+            className={cn(tab === 'headers' ? styles.editorTabNavActive : '')}
+          >
+            <button onClick={() => setTab('headers')}>Headers</button>
+          </li>
+          <li
+            className={cn(tab === 'variables' ? styles.editorTabNavActive : '')}
+          >
+            <button onClick={() => setTab('variables')}>Variables</button>
+          </li>
+        </ul>
+      </nav>
+      <div
+        className={cn(
+          styles.editorQueryContainer,
+          styles.editorTabContent,
+          tab === 'headers' ? styles.editorTabContentActive : ''
+        )}
+      >
         <div
           className={cn(
             'border-gray-800 border-2 rounded-2xl',
@@ -114,7 +135,13 @@ const QueryEditor = () => {
           />
         </div>
       </div>
-      <div className={styles.editorQueryContainer}>
+      <div
+        className={cn(
+          styles.editorQueryContainer,
+          styles.editorTabContent,
+          tab === 'variables' ? styles.editorTabContentActive : ''
+        )}
+      >
         <div
           className={cn(
             'border-gray-800 border-2 rounded-2xl p-6',
