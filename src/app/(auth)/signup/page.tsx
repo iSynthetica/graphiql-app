@@ -4,9 +4,8 @@ import { ILocalizationContext } from '@/localization';
 import { IAuthContextValue } from '@/types/interfaces';
 import { FormDataSchema, validationSchema } from '@/utils/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Nunito } from 'next/font/google';
-import { redirect, useRouter } from 'next/navigation';
-import { useContext, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useContext, useEffect, useLayoutEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import CoolButton from '../../components/lib/coolButton';
 import { signUp } from '@/app/firebase/config';
@@ -27,13 +26,11 @@ const SignUp = () => {
 
   useEffect(() => {
     if (user) {
-      router.push('/');
-      // redirect('/editor');
+      // router.push('/');
+      router.push('/editor');
     }
-  }, [user, router]);
-  // if (user) {
-  //   return null;
-  // }
+  }, [router, user]);
+
   const onSubmit = async (data: FormDataSchema) => {
     const { error } = await signUp(data.email, data.password);
 
@@ -42,9 +39,8 @@ const SignUp = () => {
     });
 
     if (error) {
-      return console.log(error);
+      return console.error(error);
     }
-    // redirect('/');
     return router.push('/');
   };
   return (

@@ -1,13 +1,13 @@
 'use client';
 import { AuthContextProvider } from '@/context/AuthContext';
 import { ILocalizationProvider } from '@/localization';
+import AppProvider from '@/redux/AppProvider';
 import { Comfortaa } from 'next/font/google';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Footer from './components/footer';
 import Header from './components/header';
 import './globals.css';
-import AppProvider from '@/redux/AppProvider';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const comfort = Comfortaa({
   weight: '700',

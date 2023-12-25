@@ -7,7 +7,7 @@ import { FormDataSchema, validationSchema } from '@/utils/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
 import { redirect, useRouter } from 'next/navigation';
-import { useContext, useLayoutEffect } from 'react';
+import { useContext, useEffect, useLayoutEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import CoolButton from '../../components/lib/coolButton';
 
@@ -27,7 +27,6 @@ const Login = () => {
   useLayoutEffect(() => {
     if (user) {
       router.push('/editor');
-      //redirect('/editor');
     }
   }, [router, user]);
 
@@ -41,8 +40,6 @@ const Login = () => {
     if (error) {
       return console.error(error);
     }
-
-    // redirect('/');
     return router.push('/');
   };
 
@@ -116,7 +113,9 @@ const Login = () => {
           type="button"
           onClick={() => {
             signInWithGoogle();
-            router.push('/');
+            {
+              user && router.push('/editor');
+            }
           }}
         >
           <svg

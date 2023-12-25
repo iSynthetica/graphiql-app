@@ -1,14 +1,17 @@
 'use client';
-
 import { Editor } from '@monaco-editor/react';
 import { cn } from '@/utils/cn';
-
 import QueryColumn from '../components/editor/QueryColumn';
 import QueryEditor from '../components/editor/QueryEditor';
 import ResponseEditor from '../components/editor/ResponseEditor';
+import { useAuth } from '@/context/AuthContext';
+import { IAuthContextValue } from '@/types/interfaces';
+import { useRouter } from 'next/navigation';
 
 const EditorPage = () => {
-  return (
+  const { user } = useAuth() as IAuthContextValue;
+  const router = useRouter();
+  return user ? (
     <main className={cn('min-h-[90vh]')}>
       <div
         className={cn(
@@ -23,6 +26,8 @@ const EditorPage = () => {
         </div>
       </div>
     </main>
+  ) : (
+    router.push('/')
   );
 };
 

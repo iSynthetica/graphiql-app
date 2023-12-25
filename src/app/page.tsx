@@ -1,24 +1,28 @@
 'use client';
-import { useAuthContext } from '@/context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
 import { ILocalizationContext } from '@/localization';
 import { IAuthContextValue } from '@/types/interfaces';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useContext, useLayoutEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import CoolButton from './components/lib/coolButton';
-import { isAuthenticated } from '../utils/auth';
 
 const WelcomePage = () => {
-  const { user } = useAuthContext() as IAuthContextValue;
+  const { user } = useAuth() as IAuthContextValue;
+  const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
 
-  useLayoutEffect(() => {
-    if (!user) {
-      router.push('/');
-    } else {
-      router.push('/editor');
-    }
-  }, [router, user]);
+  useEffect(() => {
+    // if (!user) {
+    //   router.push('/');
+    // } else {
+    //   router.push('/editor');
+    // }
+    const checkAuth = async () =>
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    setLoading(false);
+    checkAuth();
+  }, [user]);
 
   const { language, localization } = useContext(ILocalizationContext);
 
@@ -34,7 +38,7 @@ const WelcomePage = () => {
               {localization[language].authorizedStatusPositive}
             </p>
             <Link
-              href="/main"
+              href="/editor"
               className="bg-blue-500 px-4 py-2 rounded-full hover:bg-blue-600"
             >
               {localization[language].linkToMainPage}
