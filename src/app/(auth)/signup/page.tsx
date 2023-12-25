@@ -40,14 +40,10 @@ const SignUp = () => {
 
     if (error) {
       toast.error(`${localization[language].errorSignUp}`);
-
-      return console.error(error);
     } else {
       toast.success(`${localization[language].successSignUp}`);
       router.push('/editor');
     }
-
-    return router.push('/');
   };
   return (
     <div className={`flex justify-center text-white items-center w-screen`}>
