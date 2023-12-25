@@ -22,6 +22,12 @@ export interface ILocalizationContextType {
       notFoundPageText: string;
       dontHaveAccount: string;
       fromProvider: string;
+      successLogIn: string;
+      successLogOut: string;
+      successSignUp: string;
+      errorLogIn: string;
+      errorSignUp: string;
+      errorLogOut: string;
     };
   };
 }
@@ -43,6 +49,12 @@ const localization: ILocalizationContextType['localization'] = {
     notFoundPageText: 'The page you are looking for does not exist.',
     dontHaveAccount: "Don't have an account?",
     fromProvider: 'with',
+    successLogIn: 'You have successfully logged in',
+    successLogOut: 'You have successfully logged out',
+    successSignUp: 'You have successfully sign up',
+    errorSignUp: 'Email is already in use',
+    errorLogIn: 'Login error',
+    errorLogOut: 'Logout error',
   },
   RU: {
     greeting: 'Добро пожаловать!',
@@ -60,6 +72,12 @@ const localization: ILocalizationContextType['localization'] = {
     notFoundPageText: 'Такая страница не существует',
     dontHaveAccount: 'Нет аккаунта?',
     fromProvider: 'через',
+    successLogIn: 'Вы успешно вошли в аккаунт',
+    successLogOut: 'Вы успешно вышли из аккаунта',
+    successSignUp: 'Вы успешно зарегистрировались',
+    errorSignUp: 'Этот адрес электронной почты уже используется',
+    errorLogIn: 'Ошибка входа',
+    errorLogOut: 'Ошибка выхода',
   },
   UA: {
     greeting: 'Ласкаво просимо!',
@@ -69,7 +87,7 @@ const localization: ILocalizationContextType['localization'] = {
     signIn: 'Увійти',
     signUp: 'Реєстрація',
     signOut: 'Вийти',
-    welcomePage: 'Головна сторінка',
+    welcomePage: 'Початкова сторінка',
     login: 'Вхід в обліковий запис',
     email: 'Адреса електронної пошти:',
     password: 'Пароль:',
@@ -77,6 +95,12 @@ const localization: ILocalizationContextType['localization'] = {
     notFoundPageText: 'Такої сторінки не існує',
     dontHaveAccount: 'Не маєте облікового запису?',
     fromProvider: 'через',
+    successLogIn: 'Ви успішно увійшли в обліковий запис',
+    successLogOut: 'Ви успішно вийшли з облікового запису',
+    successSignUp: 'Ви успішно зареєструвались',
+    errorLogIn: 'Помилка входу',
+    errorSignUp: 'Електронна пошта вже використовується',
+    errorLogOut: 'Помилка виходу',
   },
 };
 

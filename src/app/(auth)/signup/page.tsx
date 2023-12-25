@@ -1,13 +1,14 @@
 'use client';
+import { signUp } from '@/app/firebase/config';
 import { useAuth } from '@/context/AuthContext';
 import { ILocalizationContext } from '@/localization';
 import { IAuthContextValue } from '@/types/interfaces';
 import { FormDataSchema, validationSchema } from '@/utils/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Nunito } from 'next/font/google';
 import { useRouter } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import CoolButton from '../../components/lib/coolButton';
 
 const SignUp = () => {
@@ -21,17 +22,15 @@ const SignUp = () => {
   });
   const router = useRouter();
 
-  const { user, signUp } = useAuth() as IAuthContextValue;
+  const { user } = useAuth() as IAuthContextValue;
   const { language, localization } = useContext(ILocalizationContext);
 
   useEffect(() => {
     if (user) {
-      router.push('/');
+      router.push('/editor');
     }
-  }, [user, router]);
-  if (user) {
-    return null;
-  }
+  }, [router, user]);
+
   const onSubmit = async (data: FormDataSchema) => {
     const { error } = await signUp(data.email, data.password);
 
@@ -40,10 +39,11 @@ const SignUp = () => {
     });
 
     if (error) {
-      return console.log(error);
+      toast.error(`${localization[language].errorSignUp}`);
+    } else {
+      toast.success(`${localization[language].successSignUp}`);
+      router.push('/editor');
     }
-
-    return router.push('/');
   };
   return (
     <div className={`flex justify-center text-white items-center w-screen`}>

@@ -1,19 +1,19 @@
 'use client';
-import { signInWithGoogle } from '@/app/firebase/config';
+import { signIn, signInWithGoogle } from '@/app/firebase/config';
 import { useAuth } from '@/context/AuthContext';
 import { ILocalizationContext } from '@/localization';
 import { IAuthContextValue } from '@/types/interfaces';
 import { FormDataSchema, validationSchema } from '@/utils/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Nunito } from 'next/font/google';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import CoolButton from '../../components/lib/coolButton';
 
 const Login = () => {
-  const { user, signIn } = useAuth() as IAuthContextValue;
+  const { user } = useAuth() as IAuthContextValue;
   const {
     register,
     handleSubmit,
@@ -23,17 +23,16 @@ const Login = () => {
     mode: 'onBlur',
   });
   const router = useRouter();
-  const { language, localization, setLanguage } =
-    useContext(ILocalizationContext);
+  const { language, localization } = useContext(ILocalizationContext);
 
   useEffect(() => {
     if (user) {
-      router.push('/');
+      router.push('/editor');
+    } else {
+      router.push('/signin');
     }
-  }, [user, router]);
-  if (user) {
-    return null;
-  }
+  }, [router, user]);
+
   const onSubmit = async (data: FormDataSchema) => {
     const { error } = await signIn(data.email, data.password);
 
@@ -42,10 +41,12 @@ const Login = () => {
     });
 
     if (error) {
-      return console.log(error);
+      toast.error(`${localization[language].errorLogIn}`);
+      return console.log(error, '+++++++');
+    } else {
+      toast.success(`${localization[language].successLogIn}`);
+      router.push('/editor');
     }
-
-    return router.push('/');
   };
 
   return (
@@ -118,7 +119,9 @@ const Login = () => {
           type="button"
           onClick={() => {
             signInWithGoogle();
-            router.push('/');
+            {
+              user && router.push('/editor');
+            }
           }}
         >
           <svg

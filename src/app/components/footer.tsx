@@ -15,7 +15,7 @@ const Footer = () => {
           rel="noopener noreferrer"
           className="flex items-center text-gray-500 hover:text-gray-300 w-10 h-10"
         >
-          <Image src={gitLogo} alt="Github logo" />
+          <Image src={gitLogo} alt="Github logo" priority />
           <span>Authors GitHub</span>
         </Link>
         <p className="mt-2">© {currentYear} GraphIQL</p>

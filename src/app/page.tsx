@@ -1,24 +1,24 @@
 'use client';
-import { useAuthContext } from '@/context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
 import { ILocalizationContext } from '@/localization';
 import { IAuthContextValue } from '@/types/interfaces';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import CoolButton from './components/lib/coolButton';
+import { Spinner } from './components/spinner';
 
 const WelcomePage = () => {
-  const { user } = useAuthContext() as IAuthContextValue;
-  const router = useRouter();
+  const { user } = useAuth() as IAuthContextValue;
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (router && !user) {
-      router.push('/');
-    }
-  }, [user, router]);
+    const checkAuth = async () =>
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    setLoading(false);
+    checkAuth();
+  }, [user]);
 
-  const { language, localization, setLanguage } =
-    useContext(ILocalizationContext);
+  const { language, localization } = useContext(ILocalizationContext);
 
   return (
     <div className="flex items-center justify-center bg-green-custom-800 text-white lg:text-gray-800">
@@ -26,13 +26,15 @@ const WelcomePage = () => {
         <h1 className="text-5xl font-bold mb-4">
           {localization[language].greeting}
         </h1>
-        {user ? (
+        {loading ? (
+          <Spinner />
+        ) : user ? (
           <>
             <p className="text-3xl mb-4">
               {localization[language].authorizedStatusPositive}
             </p>
             <Link
-              href="/main"
+              href="/editor"
               className="bg-blue-500 px-4 py-2 rounded-full hover:bg-blue-600"
             >
               {localization[language].linkToMainPage}
