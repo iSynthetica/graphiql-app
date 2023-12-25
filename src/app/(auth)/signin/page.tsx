@@ -6,9 +6,10 @@ import { IAuthContextValue } from '@/types/interfaces';
 import { FormDataSchema, validationSchema } from '@/utils/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
-import { redirect, useRouter } from 'next/navigation';
-import { useContext, useEffect, useLayoutEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import CoolButton from '../../components/lib/coolButton';
 
 const Login = () => {
@@ -24,9 +25,11 @@ const Login = () => {
   const router = useRouter();
   const { language, localization } = useContext(ILocalizationContext);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (user) {
       router.push('/editor');
+    } else {
+      router.push('/signin');
     }
   }, [router, user]);
 
@@ -38,9 +41,12 @@ const Login = () => {
     });
 
     if (error) {
-      return console.error(error);
+      toast.error(`${localization[language].errorLogIn}`);
+      return console.log(error, '+++++++');
+    } else {
+      toast.success(`${localization[language].successLogIn}`);
+      router.push('/editor');
     }
-    return router.push('/');
   };
 
   return (

@@ -3,27 +3,30 @@ import { useAuth } from '@/context/AuthContext';
 import { ILocalizationContext } from '@/localization';
 import { IAuthContextValue } from '@/types/interfaces';
 import { Languages } from '@/types/languages';
-import { Source_Sans_3 } from 'next/font/google';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
-import { logout } from '../firebase/config';
 import { toast } from 'react-toastify';
+import { logout } from '../firebase/config';
 
 const Header = () => {
   const { user } = useAuth() as IAuthContextValue;
   const [isSticky, setIsSticky] = useState(false);
+  const [loading, setLoading] = useState(true);
   const pathname = usePathname();
+  const { language, localization, setLanguage } =
+    useContext(ILocalizationContext);
 
   useEffect(() => {
+    const checkAuth = async () =>
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    checkAuth();
     window.addEventListener('scroll', handleScroll);
+    setLoading(false);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
-
-  const { language, localization, setLanguage } =
-    useContext(ILocalizationContext);
+  }, [user]);
 
   if (!pathname || typeof window === 'undefined') {
     return null;
@@ -39,6 +42,7 @@ const Header = () => {
 
   const handleLogOut = async () => {
     await logout();
+    toast.success(`${localization[language].successLogOut}`);
   };
 
   const handleLanguageChange = (language: Languages) => {
@@ -58,7 +62,7 @@ const Header = () => {
           </Link>
         </div>
         <div className="lg:flex justify-between w-80 mx-auto lg:mr-0  items-center">
-          {user ? (
+          {loading ? null : user ? (
             <>
               <Link
                 href="/"

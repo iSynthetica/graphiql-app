@@ -1,14 +1,15 @@
 'use client';
+import { signUp } from '@/app/firebase/config';
 import { useAuth } from '@/context/AuthContext';
 import { ILocalizationContext } from '@/localization';
 import { IAuthContextValue } from '@/types/interfaces';
 import { FormDataSchema, validationSchema } from '@/utils/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/navigation';
-import { useContext, useEffect, useLayoutEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import CoolButton from '../../components/lib/coolButton';
-import { signUp } from '@/app/firebase/config';
 
 const SignUp = () => {
   const {
@@ -26,7 +27,6 @@ const SignUp = () => {
 
   useEffect(() => {
     if (user) {
-      // router.push('/');
       router.push('/editor');
     }
   }, [router, user]);
@@ -39,8 +39,14 @@ const SignUp = () => {
     });
 
     if (error) {
+      toast.error(`${localization[language].errorSignUp}`);
+
       return console.error(error);
+    } else {
+      toast.success(`${localization[language].successSignUp}`);
+      router.push('/editor');
     }
+
     return router.push('/');
   };
   return (

@@ -1,11 +1,11 @@
 'use client';
 
+import { Spinner } from '@/app/components/spinner';
 import firebase_app, { logout } from '@/app/firebase/config';
 import { IAuthContextProviderProps } from '@/types/interfaces';
 import { isTokenExpired } from '@/utils/isTokenExpired';
 import { User, getAuth } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
-import nookies from 'nookies';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const auth = getAuth(firebase_app);
@@ -18,11 +18,6 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
-  // const [token] = useState(
-  //   nookies.get(undefined, 'token')
-  //     ? nookies.get(undefined, 'token').token
-  //     : null
-  // );
   const [currentToken, setCurrentToken] = useState<string | null>(null);
 
   useEffect(() => {
@@ -32,7 +27,6 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
     }
 
     return auth.onAuthStateChanged(async (user) => {
-      console.log('user', user);
       if (!user) {
         setUser(null);
         setLoading(false);
@@ -50,7 +44,10 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
       if (user) {
         if (!currentToken) {
           const token = await user.getIdToken();
-          //const token = nookies.get(undefined, 'token');
+          setCurrentToken(token as string);
+          isExpired = isTokenExpired(token as string);
+        } else {
+          console.log('currentToken', currentToken);
           isExpired = isTokenExpired(currentToken as string);
         }
 
@@ -69,7 +66,7 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
 
   return (
     <AuthContext.Provider value={{ user }}>
-      {loading ? <div>Loading...</div> : children}
+      {loading ? <Spinner /> : children}
     </AuthContext.Provider>
   );
 };

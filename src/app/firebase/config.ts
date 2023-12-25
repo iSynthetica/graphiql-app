@@ -9,7 +9,6 @@ import {
 } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import nookies from 'nookies';
-import { toast } from 'react-toastify';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -29,7 +28,6 @@ const db = getFirestore(firebase_app);
 const logout = () => {
   signOut(auth);
   nookies.destroy(undefined, 'token', { path: '/' });
-  toast.success('Logout successfully');
 };
 
 const signUp = async (email: string, password: string) => {
@@ -37,14 +35,11 @@ const signUp = async (email: string, password: string) => {
     error = null;
   try {
     result = await createUserWithEmailAndPassword(auth, email, password);
-    toast.success('Sign up successfully');
-
     const user = auth.currentUser;
     const token = await user?.getIdToken();
     nookies.set(undefined, 'token', token!, { path: '/' });
   } catch (err) {
-    toast.error('Sign up failed');
-    console.error(err);
+    return { error: err };
   }
   return { result, error };
 };
@@ -56,12 +51,10 @@ const signIn = async (email: string, password: string) => {
     result = await signInWithEmailAndPassword(auth, email, password);
     const user = auth.currentUser;
     const token = await user?.getIdToken();
-    toast.success('Sign in successfully');
     nookies.set(undefined, 'token', token!, { path: '/' });
   } catch (err: FirebaseError | unknown) {
     if (err instanceof FirebaseError) {
-      toast.error('Sign in failed');
-      console.error(err);
+      return { error: err };
     }
   }
   return { result, error };
@@ -74,12 +67,10 @@ const signInWithGoogle = async () => {
     const user = auth.currentUser;
     const token = await user?.getIdToken();
     nookies.set(undefined, 'token', token!, { path: '/' });
-    toast.success('Sign in successfully');
     return res.user;
   } catch (err: FirebaseError | unknown) {
     if (err instanceof FirebaseError) {
-      toast.error('Sign in failed');
-      console.error(err);
+      return { error: err };
     }
   }
 };

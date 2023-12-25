@@ -3,21 +3,15 @@ import { useAuth } from '@/context/AuthContext';
 import { ILocalizationContext } from '@/localization';
 import { IAuthContextValue } from '@/types/interfaces';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 import CoolButton from './components/lib/coolButton';
+import { Spinner } from './components/spinner';
 
 const WelcomePage = () => {
   const { user } = useAuth() as IAuthContextValue;
   const [loading, setLoading] = useState<boolean>(true);
-  const router = useRouter();
 
   useEffect(() => {
-    // if (!user) {
-    //   router.push('/');
-    // } else {
-    //   router.push('/editor');
-    // }
     const checkAuth = async () =>
       await new Promise((resolve) => setTimeout(resolve, 50));
     setLoading(false);
@@ -32,7 +26,9 @@ const WelcomePage = () => {
         <h1 className="text-5xl font-bold mb-4">
           {localization[language].greeting}
         </h1>
-        {user ? (
+        {loading ? (
+          <Spinner />
+        ) : user ? (
           <>
             <p className="text-3xl mb-4">
               {localization[language].authorizedStatusPositive}
