@@ -4,17 +4,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Editor, OnMount } from '@monaco-editor/react';
 import { cn } from '@/utils/cn';
 import styles from './editor.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
+import { prettifyGraphQLQuery } from '@/utils/prettier';
+import { changeQueryContent } from '@/redux/editorSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
 
 const QueryEditor = () => {
-  const { queryContent, headersContent, variablesContent } = useSelector(
+  const { queryContent, headersContent, variablesContent } = useAppSelector(
     (state: RootState) => state.editor
   );
+  const [editorsHeights, setEditorsHeights] = useState<number[]>([390, 145]);
   const [tab, setTab] = useState<'headers' | 'variables'>('headers');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const editorRef = useRef<undefined | editor.IStandaloneCodeEditor>();
   const editorVarsRef = useRef<undefined | editor.IStandaloneCodeEditor>();
   const editorHeadersRef = useRef<undefined | editor.IStandaloneCodeEditor>();
@@ -49,9 +52,27 @@ const QueryEditor = () => {
   };
 
   const runPrettier = () => {
-    // TODO: Implement prettier
-    console.log(editorRef.current?.getValue());
+    const updateQuery = prettifyGraphQLQuery(editorRef.current?.getValue());
+    if (updateQuery) {
+      dispatch(changeQueryContent(updateQuery));
+      editorRef.current?.setValue(updateQuery);
+    }
+    //console.log(editorRef.current?.getValue());
   };
+
+  //add keyboard shortcut for prettier
+  useEffect(() => {
+    const handleGlobalKeyDown = (event: KeyboardEvent) => {
+      if (event.shiftKey && event.ctrlKey && event.key === 'P') {
+        event.preventDefault();
+        runPrettier();
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleGlobalKeyDown);
+    };
+  }, []);
 
   return (
     <>
@@ -63,7 +84,7 @@ const QueryEditor = () => {
           )}
         >
           <Editor
-            height="350px"
+            height={`${editorsHeights[0]}px`}
             language="graphql"
             value={queryContent}
             onMount={handleEditorDidMount}
@@ -87,7 +108,7 @@ const QueryEditor = () => {
         <button
           className={cn(styles.btnEditor, styles.btnPrettify)}
           onClick={runPrettier}
-          title="Run Query"
+          title="Prettify query"
         >
           <FontAwesomeIcon icon={faMagicWandSparkles} />
         </button>
@@ -120,7 +141,7 @@ const QueryEditor = () => {
           )}
         >
           <Editor
-            height="100px"
+            height={`${editorsHeights[1]}px`}
             language="json"
             value={headersContent}
             onMount={handleEditorHeadersDidMount}
@@ -149,7 +170,7 @@ const QueryEditor = () => {
           )}
         >
           <Editor
-            height="100px"
+            height={`${editorsHeights[1]}px`}
             language="json"
             value={variablesContent}
             onMount={handleEditorVarsDidMount}
