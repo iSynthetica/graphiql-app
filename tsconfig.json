@@ -30,7 +30,8 @@
     ".next/types/**/*.ts",
     "src/app/firebase/config.ts",
     "src/app/sign-up/[sign-up.tsx]",
-    "src/app/firebase/firestore/getData.ts"
+    "src/app/firebase/firestore/getData.ts",
+    "vitest.config.mts"
   ],
   "exclude": ["node_modules"]
 }
