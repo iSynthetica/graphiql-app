@@ -4,22 +4,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Editor, OnMount } from '@monaco-editor/react';
 import { cn } from '@/utils/cn';
 import styles from './editor.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
 import { prettifyGraphQLQuery } from '@/utils/prettier';
 import { changeQueryContent } from '@/redux/editorSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { useFetchSchemaQuery } from '@/api/graphql';
 
 const QueryEditor = () => {
   const { queryContent, headersContent, variablesContent } = useAppSelector(
     (state: RootState) => state.editor
   );
+  const [editorsHeights, setEditorsHeights] = useState<number[]>([390, 145]);
+  const [tab, setTab] = useState<'headers' | 'variables'>('headers');
   const dispatch = useAppDispatch();
   const editorRef = useRef<undefined | editor.IStandaloneCodeEditor>();
   const editorVarsRef = useRef<undefined | editor.IStandaloneCodeEditor>();
   const editorHeadersRef = useRef<undefined | editor.IStandaloneCodeEditor>();
+  const { data, isLoading, isError } = useFetchSchemaQuery({});
+
+  useEffect(() => {
+    if (data) {
+      console.log(data, 'schema');
+    }
+  }, [data]);
 
   const handleEditorOnChange = (value: string | undefined) => {
     console.log(value);
@@ -56,9 +65,7 @@ const QueryEditor = () => {
       dispatch(changeQueryContent(updateQuery));
       editorRef.current?.setValue(updateQuery);
     }
-    //console.log(editorRef.current?.getValue());
   };
-
 
   //add keyboard shortcut for prettier
   useEffect(() => {
@@ -82,9 +89,12 @@ const QueryEditor = () => {
             'border-gray-800 border-2 rounded-2xl p-6',
             styles.innerContainer
           )}
+          onClick={() => {
+            setEditorsHeights([390, 145]);
+          }}
         >
           <Editor
-            height="350px"
+            height={`${editorsHeights[0]}px`}
             language="graphql"
             value={queryContent}
             onMount={handleEditorDidMount}
@@ -113,15 +123,38 @@ const QueryEditor = () => {
           <FontAwesomeIcon icon={faMagicWandSparkles} />
         </button>
       </div>
-      <div className={cn(styles.editorQueryContainer, 'mb-2')}>
+      <nav className={styles.editorTabNav}>
+        <ul>
+          <li
+            className={cn(tab === 'headers' ? styles.editorTabNavActive : '')}
+          >
+            <button onClick={() => setTab('headers')}>Headers</button>
+          </li>
+          <li
+            className={cn(tab === 'variables' ? styles.editorTabNavActive : '')}
+          >
+            <button onClick={() => setTab('variables')}>Variables</button>
+          </li>
+        </ul>
+      </nav>
+      <div
+        className={cn(
+          styles.editorQueryContainer,
+          styles.editorTabContent,
+          tab === 'headers' ? styles.editorTabContentActive : ''
+        )}
+      >
         <div
           className={cn(
             'border-gray-800 border-2 rounded-2xl',
             styles.innerContainer
           )}
+          onClick={() => {
+            setEditorsHeights([285, 250]);
+          }}
         >
           <Editor
-            height="100px"
+            height={`${editorsHeights[1]}px`}
             language="json"
             value={headersContent}
             onMount={handleEditorHeadersDidMount}
@@ -136,15 +169,24 @@ const QueryEditor = () => {
           />
         </div>
       </div>
-      <div className={styles.editorQueryContainer}>
+      <div
+        className={cn(
+          styles.editorQueryContainer,
+          styles.editorTabContent,
+          tab === 'variables' ? styles.editorTabContentActive : ''
+        )}
+      >
         <div
           className={cn(
             'border-gray-800 border-2 rounded-2xl p-6',
             styles.innerContainer
           )}
+          onClick={() => {
+            setEditorsHeights([285, 250]);
+          }}
         >
           <Editor
-            height="100px"
+            height={`${editorsHeights[1]}px`}
             language="json"
             value={variablesContent}
             onMount={handleEditorVarsDidMount}

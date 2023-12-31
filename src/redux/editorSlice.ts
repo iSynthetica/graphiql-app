@@ -3,6 +3,7 @@ import { dummyQuery, dunmyHeaders, dummyVariables } from '@/data/dummyQuery';
 import { dummyResponse } from '@/data/dummyResponse';
 
 export interface EditorData {
+  url: string;
   queryContent: string;
   headersContent: string;
   variablesContent: string;
@@ -10,6 +11,7 @@ export interface EditorData {
 }
 
 const initialState: EditorData = {
+  url: 'https://rickandmortyapi.com/graphql',
   queryContent: dummyQuery,
   headersContent: dunmyHeaders,
   variablesContent: dummyVariables,
