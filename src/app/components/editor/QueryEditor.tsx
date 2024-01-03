@@ -10,7 +10,7 @@ import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
 import { prettifyGraphQLQuery } from '@/utils/prettier';
 import { changeQueryContent } from '@/redux/editorSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { useFetchSchemaQuery } from '@/api/graphql';
+import { createGraphqlApi } from '@/api/graphql';
 
 const QueryEditor = () => {
   const { queryContent, headersContent, variablesContent } = useAppSelector(
@@ -22,6 +22,8 @@ const QueryEditor = () => {
   const editorRef = useRef<undefined | editor.IStandaloneCodeEditor>();
   const editorVarsRef = useRef<undefined | editor.IStandaloneCodeEditor>();
   const editorHeadersRef = useRef<undefined | editor.IStandaloneCodeEditor>();
+  const graphqlApi = createGraphqlApi('https://rickandmortyapi.com/graphql');
+  const { useFetchSchemaQuery } = graphqlApi;
   const { data, isLoading, isError } = useFetchSchemaQuery({});
 
   useEffect(() => {
@@ -57,6 +59,8 @@ const QueryEditor = () => {
   const runQuery = () => {
     // TODO: Implement query
     console.log(editorRef.current?.getValue());
+    console.log(editorVarsRef.current?.getValue());
+    console.log(editorHeadersRef.current?.getValue());
   };
 
   const runPrettier = () => {
@@ -95,6 +99,7 @@ const QueryEditor = () => {
         >
           <Editor
             height={`${editorsHeights[0]}px`}
+            width="100%"
             language="graphql"
             value={queryContent}
             onMount={handleEditorDidMount}
@@ -155,6 +160,7 @@ const QueryEditor = () => {
         >
           <Editor
             height={`${editorsHeights[1]}px`}
+            width="100%"
             language="json"
             value={headersContent}
             onMount={handleEditorHeadersDidMount}
@@ -187,6 +193,7 @@ const QueryEditor = () => {
         >
           <Editor
             height={`${editorsHeights[1]}px`}
+            width="100%"
             language="json"
             value={variablesContent}
             onMount={handleEditorVarsDidMount}
