@@ -1,4 +1,8 @@
-import { faMagicWandSparkles, faPlay, faBook } from '@fortawesome/free-solid-svg-icons';
+import {
+  faMagicWandSparkles,
+  faPlay,
+  faBook,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Editor, OnMount } from '@monaco-editor/react';
@@ -62,7 +66,7 @@ const QueryEditor = () => {
   };
 
   const runDoc = () => {
-    dispatch(show ? hideDocs() :showDocs());
+    dispatch(show ? hideDocs() : showDocs());
   };
 
   const runPrettier = () => {
