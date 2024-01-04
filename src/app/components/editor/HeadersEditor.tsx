@@ -6,6 +6,7 @@ import { Editor, OnMount } from '@monaco-editor/react';
 import { useRef } from 'react';
 import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
 import { setEditorsHeights } from '@/redux/controlSlice';
+import { changeHeadersContent } from '@/redux/editorSlice';
 
 function HeadersEditor() {
   const editorRef = useRef<undefined | editor.IStandaloneCodeEditor>();
@@ -20,7 +21,7 @@ function HeadersEditor() {
   };
 
   const handleEditorOnChange = (value: string | undefined) => {
-    console.log(value);
+    dispatch(changeHeadersContent(value || ''));
   };
 
   return (

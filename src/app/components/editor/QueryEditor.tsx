@@ -91,6 +91,27 @@ const QueryEditor = () => {
   return (
     <>
       <div className={cn(styles.editorQueryContainer, 'mb-2')}>
+        <button
+          className={cn(styles.btnEditor, styles.btnRunQuery)}
+          onClick={runQuery}
+          title="Run Query - Shift+Ctrl+R"
+        >
+          <FontAwesomeIcon icon={faPlay} />
+        </button>
+        <button
+          className={cn(styles.btnEditor, styles.btnPrettify)}
+          onClick={runPrettier}
+          title="Prettify query - Shift+Ctrl+P"
+        >
+          <FontAwesomeIcon icon={faMagicWandSparkles} />
+        </button>
+        <button
+          className={cn(styles.btnEditor, styles.btnDoc)}
+          onClick={runDoc}
+          title="Documentaion - Shift+Ctrl+D"
+        >
+          <FontAwesomeIcon icon={faBook} />
+        </button>
         <div
           className={cn(
             'border-gray-800 border-2 rounded-2xl p-6',
@@ -116,27 +137,6 @@ const QueryEditor = () => {
             }}
           />
         </div>
-        <button
-          className={cn(styles.btnEditor, styles.btnRunQuery)}
-          onClick={runQuery}
-          title="Run Query - Shift+Ctrl+R"
-        >
-          <FontAwesomeIcon icon={faPlay} />
-        </button>
-        <button
-          className={cn(styles.btnEditor, styles.btnPrettify)}
-          onClick={runPrettier}
-          title="Prettify query - Shift+Ctrl+P"
-        >
-          <FontAwesomeIcon icon={faMagicWandSparkles} />
-        </button>
-        <button
-          className={cn(styles.btnEditor, styles.btnDoc)}
-          onClick={runDoc}
-          title="Documentaion - Shift+Ctrl+D"
-        >
-          <FontAwesomeIcon icon={faBook} />
-        </button>
       </div>
       <EditorTabs />
       <HeadersEditor />

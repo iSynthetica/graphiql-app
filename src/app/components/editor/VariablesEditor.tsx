@@ -6,6 +6,7 @@ import { Editor, OnMount } from '@monaco-editor/react';
 import { useRef } from 'react';
 import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
 import { setEditorsHeights } from '@/redux/controlSlice';
+import { changeVariablesContent } from '@/redux/editorSlice';
 
 function VariablesEditor() {
   const editorRef = useRef<undefined | editor.IStandaloneCodeEditor>();
@@ -22,7 +23,7 @@ function VariablesEditor() {
   };
 
   const handleEditorOnChange = (value: string | undefined) => {
-    console.log(value);
+    dispatch(changeVariablesContent(value || ''));
   };
 
   return (
