@@ -21,7 +21,7 @@ import { setEditorsHeights } from '@/redux/controlSlice';
 import HeadersEditor from './HeadersEditor';
 import VariablesEditor from './VariablesEditor';
 
-const QueryEditor = () => {
+const EditorContainer = () => {
   const { queryContent, variablesContent } = useAppSelector(
     (state: RootState) => state.editor
   );
@@ -145,4 +145,4 @@ const QueryEditor = () => {
   );
 };
 
-export default QueryEditor;
+export default EditorContainer;

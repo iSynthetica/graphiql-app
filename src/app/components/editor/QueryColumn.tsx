@@ -1,14 +1,14 @@
 import styles from './editor.module.scss';
 import { cn } from '@/utils/cn';
 
-import QueryEditor from './QueryEditor';
+import EditorContainer from './EditorContainer';
 import UrlInput from './UrlInput';
 
 const QueryColumn = () => {
   return (
     <div className={cn(styles.editorLeftCol)}>
       <UrlInput />
-      <QueryEditor />
+      <EditorContainer />
     </div>
   );
 };
