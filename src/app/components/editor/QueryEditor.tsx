@@ -1,4 +1,8 @@
-import { faMagicWandSparkles, faPlay } from '@fortawesome/free-solid-svg-icons';
+import {
+  faMagicWandSparkles,
+  faPlay,
+  faBook,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Editor, OnMount } from '@monaco-editor/react';
@@ -12,6 +16,7 @@ import { changeQueryContent } from '@/redux/editorSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { createGraphqlApi } from '@/api/graphql';
 import EditorTabs from './EditorTabs';
+import { hideDocs, showDocs } from '@/redux/commonSlice';
 
 const QueryEditor = () => {
   const { queryContent, headersContent, variablesContent } = useAppSelector(
@@ -26,6 +31,7 @@ const QueryEditor = () => {
   const graphqlApi = createGraphqlApi('https://rickandmortyapi.com/graphql');
   const { useFetchSchemaQuery } = graphqlApi;
   const { data, isLoading, isError } = useFetchSchemaQuery({});
+  const show = useAppSelector((state) => state.common.isShowDocs);
 
   useEffect(() => {
     if (data) {
@@ -35,6 +41,11 @@ const QueryEditor = () => {
 
   const handleEditorOnChange = (value: string | undefined) => {
     console.log(value);
+  };
+
+  const handleEditorValidation = (markers: editor.IMarker[]) => {
+    // model markers
+    markers.forEach((marker) => console.log('onValidate:', marker.message));
   };
 
   const handleEditorHeadersOnChange = (value: string | undefined) => {
@@ -64,6 +75,10 @@ const QueryEditor = () => {
     console.log(editorHeadersRef.current?.getValue());
   };
 
+  const runDoc = () => {
+    dispatch(show ? hideDocs() : showDocs());
+  };
+
   const runPrettier = () => {
     const updateQuery = prettifyGraphQLQuery(editorRef.current?.getValue());
     if (updateQuery) {
@@ -78,6 +93,14 @@ const QueryEditor = () => {
       if (event.shiftKey && event.ctrlKey && event.key === 'P') {
         event.preventDefault();
         runPrettier();
+      }
+      if (event.shiftKey && event.ctrlKey && event.key === 'D') {
+        event.preventDefault();
+        runQuery();
+      }
+      if (event.shiftKey && event.ctrlKey && event.key === 'R') {
+        event.preventDefault();
+        runDoc();
       }
     };
     window.addEventListener('keydown', handleGlobalKeyDown);
@@ -105,6 +128,7 @@ const QueryEditor = () => {
             value={queryContent}
             onMount={handleEditorDidMount}
             onChange={handleEditorOnChange}
+            onValidate={handleEditorValidation}
             options={{
               minimap: {
                 enabled: false,
@@ -117,16 +141,23 @@ const QueryEditor = () => {
         <button
           className={cn(styles.btnEditor, styles.btnRunQuery)}
           onClick={runQuery}
-          title="Run Query"
+          title="Run Query - Shift+Ctrl+R"
         >
           <FontAwesomeIcon icon={faPlay} />
         </button>
         <button
           className={cn(styles.btnEditor, styles.btnPrettify)}
           onClick={runPrettier}
-          title="Prettify query"
+          title="Prettify query - Shift+Ctrl+P"
         >
           <FontAwesomeIcon icon={faMagicWandSparkles} />
+        </button>
+        <button
+          className={cn(styles.btnEditor, styles.btnDoc)}
+          onClick={runDoc}
+          title="Documentaion - Shift+Ctrl+D"
+        >
+          <FontAwesomeIcon icon={faBook} />
         </button>
       </div>
       <EditorTabs />
