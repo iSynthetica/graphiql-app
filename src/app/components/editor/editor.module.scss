@@ -7,6 +7,11 @@
 .editorRightCol {
   padding: 10px;
   background-color: rgba($color: #ffffff, $alpha: 0.5);
+  .monaco-editor .fold-icon {
+    font-family: 'Material Icons';
+    font-size: 14px;
+    color: #2196f3;
+  }
 }
 .urlInputContainer {
   margin-bottom: 10px;
@@ -42,8 +47,40 @@
       color: #6fce6f;
     }
   }
+  .btnDoc {
+    top: 70px;
+    background-color: transparent;
+    border: 1px solid rgb(178, 178, 178);
+    color: rgb(178, 178, 178);
+    &:hover {
+      border: 1px solid #6fce6f;
+      color: #6fce6f;
+    }
+  }
+
   .innerContainer {
     background-color: white;
     padding: 5px 15px 5px 5px;
+  }
+}
+.editorTabNav {
+  li {
+    display: inline-block;
+    margin: 5px 10px;
+    button {
+      color: #333;
+    }
+    &.editorTabNavActive {
+      button {
+        color: #90ee90;
+      }
+    }
+  }
+}
+
+.editorTabContent {
+  display: none;
+  &.editorTabContentActive {
+    display: block;
   }
 }

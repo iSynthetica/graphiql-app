@@ -33,6 +33,8 @@ const ResponseEditor = () => {
             enabled: false,
           },
           renderLineHighlight: 'none',
+          lineDecorationsWidth: 20,
+          showFoldingControls: 'always',
         }}
       />
     </div>
