@@ -17,17 +17,19 @@ import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { createGraphqlApi } from '@/api/graphql';
 import EditorTabs from './EditorTabs';
 import { hideDocs, showDocs } from '@/redux/commonSlice';
+import { setEditorsHeights } from '@/redux/controlSlice';
+import HeadersEditor from './HeadersEditor';
 
 const QueryEditor = () => {
-  const { queryContent, headersContent, variablesContent } = useAppSelector(
+  const { queryContent, variablesContent } = useAppSelector(
     (state: RootState) => state.editor
   );
-  const { tab } = useAppSelector((state: RootState) => state.control);
-  const [editorsHeights, setEditorsHeights] = useState<number[]>([390, 145]);
+  const { tab, editorsHeights } = useAppSelector(
+    (state: RootState) => state.control
+  );
   const dispatch = useAppDispatch();
   const editorRef = useRef<undefined | editor.IStandaloneCodeEditor>();
   const editorVarsRef = useRef<undefined | editor.IStandaloneCodeEditor>();
-  const editorHeadersRef = useRef<undefined | editor.IStandaloneCodeEditor>();
   const graphqlApi = createGraphqlApi('https://rickandmortyapi.com/graphql');
   const { useFetchSchemaQuery } = graphqlApi;
   const { data, isLoading, isError } = useFetchSchemaQuery({});
@@ -43,15 +45,6 @@ const QueryEditor = () => {
     console.log(value);
   };
 
-  const handleEditorValidation = (markers: editor.IMarker[]) => {
-    // model markers
-    markers.forEach((marker) => console.log('onValidate:', marker.message));
-  };
-
-  const handleEditorHeadersOnChange = (value: string | undefined) => {
-    console.log(value);
-  };
-
   const handleEditorVarsOnChange = (value: string | undefined) => {
     console.log(value);
   };
@@ -60,19 +53,14 @@ const QueryEditor = () => {
     editorRef.current = editor;
   };
 
-  const handleEditorHeadersDidMount: OnMount = (editor, monaco) => {
-    editorVarsRef.current = editor;
-  };
-
   const handleEditorVarsDidMount: OnMount = (editor, monaco) => {
-    editorHeadersRef.current = editor;
+    editorVarsRef.current = editor;
   };
 
   const runQuery = () => {
     // TODO: Implement query
     console.log(editorRef.current?.getValue());
     console.log(editorVarsRef.current?.getValue());
-    console.log(editorHeadersRef.current?.getValue());
   };
 
   const runDoc = () => {
@@ -118,7 +106,7 @@ const QueryEditor = () => {
             styles.innerContainer
           )}
           onClick={() => {
-            setEditorsHeights([390, 145]);
+            dispatch(setEditorsHeights([390, 145]));
           }}
         >
           <Editor
@@ -128,7 +116,6 @@ const QueryEditor = () => {
             value={queryContent}
             onMount={handleEditorDidMount}
             onChange={handleEditorOnChange}
-            onValidate={handleEditorValidation}
             options={{
               minimap: {
                 enabled: false,
@@ -161,39 +148,7 @@ const QueryEditor = () => {
         </button>
       </div>
       <EditorTabs />
-      <div
-        className={cn(
-          styles.editorQueryContainer,
-          styles.editorTabContent,
-          tab === 'headers' ? styles.editorTabContentActive : ''
-        )}
-      >
-        <div
-          className={cn(
-            'border-gray-800 border-2 rounded-2xl',
-            styles.innerContainer
-          )}
-          onClick={() => {
-            setEditorsHeights([285, 250]);
-          }}
-        >
-          <Editor
-            height={`${editorsHeights[1]}px`}
-            width="100%"
-            language="json"
-            value={headersContent}
-            onMount={handleEditorHeadersDidMount}
-            onChange={handleEditorHeadersOnChange}
-            options={{
-              minimap: {
-                enabled: false,
-              },
-              scrollBeyondLastLine: false,
-              renderLineHighlight: 'none',
-            }}
-          />
-        </div>
-      </div>
+      <HeadersEditor />
       <div
         className={cn(
           styles.editorQueryContainer,
@@ -207,7 +162,7 @@ const QueryEditor = () => {
             styles.innerContainer
           )}
           onClick={() => {
-            setEditorsHeights([285, 250]);
+            dispatch(setEditorsHeights([285, 250]));
           }}
         >
           <Editor
