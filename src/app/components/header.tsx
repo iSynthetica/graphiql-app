@@ -1,6 +1,6 @@
 'use client';
 import { useAuth } from '@/context/AuthContext';
-import { ILocalizationContext } from '@/localization';
+import { ILocalizationContext } from '@/context/localization';
 import { IAuthContextValue } from '@/types/interfaces';
 import { Languages } from '@/types/languages';
 import Link from 'next/link';

@@ -1,6 +1,6 @@
 'use client';
 import { ReactNode, createContext, useState } from 'react';
-import { Languages } from './types/languages';
+import { Languages } from '../types/languages';
 
 export interface ILocalizationContextType {
   language: Languages;

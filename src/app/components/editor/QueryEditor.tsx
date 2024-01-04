@@ -59,7 +59,6 @@ const QueryEditor = () => {
     //console.log(editorRef.current?.getValue());
   };
 
-
   //add keyboard shortcut for prettier
   useEffect(() => {
     const handleGlobalKeyDown = (event: KeyboardEvent) => {
