@@ -19,6 +19,7 @@ import EditorTabs from './EditorTabs';
 import { hideDocs, showDocs } from '@/redux/commonSlice';
 import { setEditorsHeights } from '@/redux/controlSlice';
 import HeadersEditor from './HeadersEditor';
+import VariablesEditor from './VariablesEditor';
 
 const QueryEditor = () => {
   const { queryContent, variablesContent } = useAppSelector(
@@ -29,7 +30,6 @@ const QueryEditor = () => {
   );
   const dispatch = useAppDispatch();
   const editorRef = useRef<undefined | editor.IStandaloneCodeEditor>();
-  const editorVarsRef = useRef<undefined | editor.IStandaloneCodeEditor>();
   const graphqlApi = createGraphqlApi('https://rickandmortyapi.com/graphql');
   const { useFetchSchemaQuery } = graphqlApi;
   const { data, isLoading, isError } = useFetchSchemaQuery({});
@@ -45,22 +45,13 @@ const QueryEditor = () => {
     console.log(value);
   };
 
-  const handleEditorVarsOnChange = (value: string | undefined) => {
-    console.log(value);
-  };
-
   const handleEditorDidMount: OnMount = (editor, monaco) => {
     editorRef.current = editor;
-  };
-
-  const handleEditorVarsDidMount: OnMount = (editor, monaco) => {
-    editorVarsRef.current = editor;
   };
 
   const runQuery = () => {
     // TODO: Implement query
     console.log(editorRef.current?.getValue());
-    console.log(editorVarsRef.current?.getValue());
   };
 
   const runDoc = () => {
@@ -149,39 +140,7 @@ const QueryEditor = () => {
       </div>
       <EditorTabs />
       <HeadersEditor />
-      <div
-        className={cn(
-          styles.editorQueryContainer,
-          styles.editorTabContent,
-          tab === 'variables' ? styles.editorTabContentActive : ''
-        )}
-      >
-        <div
-          className={cn(
-            'border-gray-800 border-2 rounded-2xl p-6',
-            styles.innerContainer
-          )}
-          onClick={() => {
-            dispatch(setEditorsHeights([285, 250]));
-          }}
-        >
-          <Editor
-            height={`${editorsHeights[1]}px`}
-            width="100%"
-            language="json"
-            value={variablesContent}
-            onMount={handleEditorVarsDidMount}
-            onChange={handleEditorVarsOnChange}
-            options={{
-              minimap: {
-                enabled: false,
-              },
-              scrollBeyondLastLine: false,
-              renderLineHighlight: 'none',
-            }}
-          />
-        </div>
-      </div>
+      <VariablesEditor />
     </>
   );
 };
