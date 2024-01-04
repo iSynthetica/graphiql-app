@@ -12,12 +12,12 @@ const controlSlice = createSlice({
   name: 'control',
   initialState,
   reducers: {
-    changeTab: (state, action: PayloadAction<'headers' | 'variables'>) => {
+    setTab: (state, action: PayloadAction<'headers' | 'variables'>) => {
       state.tab = action.payload;
     },
   },
 });
 
-export const { changeTab } = controlSlice.actions;
+export const { setTab } = controlSlice.actions;
 
 export default controlSlice.reducer;

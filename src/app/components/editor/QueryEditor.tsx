@@ -11,13 +11,14 @@ import { prettifyGraphQLQuery } from '@/utils/prettier';
 import { changeQueryContent } from '@/redux/editorSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { createGraphqlApi } from '@/api/graphql';
+import EditorTabs from './EditorTabs';
 
 const QueryEditor = () => {
   const { queryContent, headersContent, variablesContent } = useAppSelector(
     (state: RootState) => state.editor
   );
+  const { tab } = useAppSelector((state: RootState) => state.control);
   const [editorsHeights, setEditorsHeights] = useState<number[]>([390, 145]);
-  const [tab, setTab] = useState<'headers' | 'variables'>('headers');
   const dispatch = useAppDispatch();
   const editorRef = useRef<undefined | editor.IStandaloneCodeEditor>();
   const editorVarsRef = useRef<undefined | editor.IStandaloneCodeEditor>();
@@ -128,20 +129,7 @@ const QueryEditor = () => {
           <FontAwesomeIcon icon={faMagicWandSparkles} />
         </button>
       </div>
-      <nav className={styles.editorTabNav}>
-        <ul>
-          <li
-            className={cn(tab === 'headers' ? styles.editorTabNavActive : '')}
-          >
-            <button onClick={() => setTab('headers')}>Headers</button>
-          </li>
-          <li
-            className={cn(tab === 'variables' ? styles.editorTabNavActive : '')}
-          >
-            <button onClick={() => setTab('variables')}>Variables</button>
-          </li>
-        </ul>
-      </nav>
+      <EditorTabs />
       <div
         className={cn(
           styles.editorQueryContainer,
