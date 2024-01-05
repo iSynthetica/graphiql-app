@@ -8,6 +8,7 @@ export interface EditorData {
   headersContent: string;
   variablesContent: string;
   responseContent: string;
+  docsContent: string;
 }
 
 const initialState: EditorData = {
@@ -16,12 +17,16 @@ const initialState: EditorData = {
   headersContent: dunmyHeaders,
   variablesContent: dummyVariables,
   responseContent: dummyResponse,
+  docsContent: '',
 };
 
 const editorSlice = createSlice({
   name: 'editor',
   initialState,
   reducers: {
+    changeUrl: (state, action: PayloadAction<string>) => {
+      state.url = action.payload;
+    },
     changeQueryContent: (state, action: PayloadAction<string>) => {
       state.queryContent = action.payload;
     },
@@ -38,9 +43,11 @@ const editorSlice = createSlice({
 });
 
 export const {
+  changeUrl,
   changeQueryContent,
   changeResponseContent,
   changeVariablesContent,
   changeHeadersContent,
 } = editorSlice.actions;
+
 export default editorSlice.reducer;

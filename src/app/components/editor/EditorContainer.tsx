@@ -5,36 +5,37 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { Editor, OnMount } from '@monaco-editor/react';
 import { cn } from '@/utils/cn';
 import styles from './editor.module.scss';
 import { RootState } from '@/redux/store';
-import { useEffect, useRef, useState } from 'react';
-import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
+import { useEffect } from 'react';
 import { prettifyGraphQLQuery } from '@/utils/prettier';
 import { changeQueryContent } from '@/redux/editorSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { createGraphqlApi } from '@/api/graphql';
 import EditorTabs from './EditorTabs';
 import { hideDocs, showDocs } from '@/redux/commonSlice';
-import { setEditorsHeights } from '@/redux/controlSlice';
 import HeadersEditor from './HeadersEditor';
 import VariablesEditor from './VariablesEditor';
 import QueryEditor from './QueryEditor';
 
 const EditorContainer = () => {
-  const { queryContent, headersContent, variablesContent } = useAppSelector(
-    (state: RootState) => state.editor
-  );
+  const { queryContent, headersContent, variablesContent, url } =
+    useAppSelector((state: RootState) => state.editor);
   const dispatch = useAppDispatch();
-  const graphqlApi = createGraphqlApi('https://rickandmortyapi.com/graphql');
+  const graphqlApi = createGraphqlApi(url);
   const { useFetchSchemaQuery } = graphqlApi;
-  const { data, isLoading, isError } = useFetchSchemaQuery({});
+  const { data, isLoading, isError, refetch } = useFetchSchemaQuery(
+    {},
+    {
+      skip: false,
+    }
+  );
   const show = useAppSelector((state) => state.common.isShowDocs);
 
   useEffect(() => {
     if (data) {
-      console.log(data, 'schema');
+      console.log(data, typeof data, 'schema');
     }
   }, [data]);
 
@@ -76,11 +77,13 @@ const EditorContainer = () => {
     return () => {
       window.removeEventListener('keydown', handleGlobalKeyDown);
     };
-  }, []);
+  });
 
   return (
     <>
+      <h1 className={styles.urlHeader}>{url}</h1>
       <div className={cn(styles.editorQueryContainer, 'mb-2')}>
+        <div className={cn(styles.editorQueryContainerBg)}></div>
         <button
           className={cn(styles.btnEditor, styles.btnRunQuery)}
           onClick={runQuery}
