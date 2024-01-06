@@ -14,6 +14,15 @@ export const createGraphqlApi = (baseUrl: string) => {
           body: schemaBody,
         }),
       }),
+      fetchData: builder.query({
+        query: ({ query }) => ({
+          url: '/',
+          method: 'POST',
+          body: {
+            query,
+          },
+        }),
+      }),
     }),
   });
 };
@@ -22,4 +31,4 @@ export const graphqlApi = createGraphqlApi(
   'https://rickandmortyapi.com/graphql'
 );
 
-export const { useFetchSchemaQuery } = graphqlApi;
+export const { useFetchSchemaQuery, useFetchDataQuery } = graphqlApi;

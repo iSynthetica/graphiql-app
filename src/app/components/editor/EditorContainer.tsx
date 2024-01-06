@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import { prettifyGraphQLQuery } from '@/utils/prettier';
 import { changeQueryContent } from '@/redux/editorSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { createGraphqlApi } from '@/api/graphql';
+import { createGraphqlApi, useFetchDataQuery } from '@/api/graphql';
 import EditorTabs from './EditorTabs';
 import { hideDocs, showDocs } from '@/redux/commonSlice';
 import HeadersEditor from './HeadersEditor';
@@ -24,20 +24,27 @@ const EditorContainer = () => {
     useAppSelector((state: RootState) => state.editor);
   const dispatch = useAppDispatch();
   const graphqlApi = createGraphqlApi(url);
-  const { useFetchSchemaQuery } = graphqlApi;
-  const { data, isLoading, isError, refetch } = useFetchSchemaQuery(
-    {},
-    {
-      skip: false,
-    }
+  const { useFetchSchemaQuery, useFetchDataQuery } = graphqlApi;
+  const {
+    data: schemaData,
+    isLoading: isSchemaLoading,
+    isError: isSchemaError,
+    refetch: refetchSchema,
+  } = useFetchSchemaQuery({}, { skip: true });
+  const { data, isLoading, isError, refetch } = useFetchDataQuery(
+    { query: queryContent },
+    { skip: true }
   );
   const show = useAppSelector((state) => state.common.isShowDocs);
 
   useEffect(() => {
-    if (data) {
-      console.log(data, typeof data, 'schema');
+    if (schemaData) {
+      console.log(schemaData, typeof schemaData, 'schema');
     }
-  }, [data]);
+    if (data) {
+      console.log(data, typeof data, 'data');
+    }
+  }, [schemaData, data]);
 
   const runQuery = () => {
     // TODO: Implement query

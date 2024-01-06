@@ -1,20 +1,17 @@
-export const dummyQuery = `query ($limit: Int!) {
-  products(limit: $limit) {
+export const dummyQuery = `query {
+  characters(page: 2, filter: { name: "rick" }) {
+    info {
+      count
+    }
+    results {
+      name
+    }
+  }
+  location(id: 1) {
     id
-    name
-    slug
-    permalink
-    price
-    categories {
-      id
-      name
-      slug
-    }
-    images {
-      id
-      name
-      src
-    }
+  }
+  episodesByIds(ids: [1, 2]) {
+    id
   }
 }`;
 
