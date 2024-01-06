@@ -28,9 +28,19 @@ const editorSlice = createSlice({
     changeResponseContent: (state, action: PayloadAction<string>) => {
       state.responseContent = action.payload;
     },
+    changeVariablesContent: (state, action: PayloadAction<string>) => {
+      state.variablesContent = action.payload;
+    },
+    changeHeadersContent: (state, action: PayloadAction<string>) => {
+      state.headersContent = action.payload;
+    },
   },
 });
 
-export const { changeQueryContent, changeResponseContent } =
-  editorSlice.actions;
+export const {
+  changeQueryContent,
+  changeResponseContent,
+  changeVariablesContent,
+  changeHeadersContent,
+} = editorSlice.actions;
 export default editorSlice.reducer;

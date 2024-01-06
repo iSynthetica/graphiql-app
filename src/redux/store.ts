@@ -1,12 +1,14 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import commonReducer from './commonSlice';
 import editorReducer from './editorSlice';
+import controlReducer from './controlSlice';
 import { createWrapper } from 'next-redux-wrapper';
 import { graphqlApi } from '@/api/graphql';
 
 export const rootReducer = combineReducers({
   common: commonReducer,
   editor: editorReducer,
+  control: controlReducer,
   [graphqlApi.reducerPath]: graphqlApi.reducer,
 });
 
