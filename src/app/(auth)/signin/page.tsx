@@ -42,7 +42,6 @@ const Login = () => {
 
     if (error) {
       toast.error(`${localization[language].errorLogIn}`);
-      return console.log(error, '+++++++');
     } else {
       toast.success(`${localization[language].successLogIn}`);
       router.push('/editor');
