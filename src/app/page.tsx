@@ -34,7 +34,7 @@ const WelcomePage = () => {
               {localization[language].authorizedStatusPositive}
             </p>
             <Link
-              href="/editor"
+              href="/main"
               className="bg-blue-500 px-4 py-2 rounded-full hover:bg-blue-600"
             >
               {localization[language].linkToMainPage}

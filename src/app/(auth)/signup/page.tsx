@@ -27,7 +27,7 @@ const SignUp = () => {
 
   useEffect(() => {
     if (user) {
-      router.push('/editor');
+      router.push('/main');
     }
   }, [router, user]);
 
@@ -42,7 +42,7 @@ const SignUp = () => {
       toast.error(`${localization[language].errorSignUp}`);
     } else {
       toast.success(`${localization[language].successSignUp}`);
-      router.push('/editor');
+      router.push('/main');
     }
   };
   return (
