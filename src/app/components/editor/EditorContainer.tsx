@@ -8,49 +8,43 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { cn } from '@/utils/cn';
 import styles from './editor.module.scss';
 import { RootState } from '@/redux/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { prettifyGraphQLQuery } from '@/utils/prettier';
-import { changeQueryContent } from '@/redux/editorSlice';
+import { changeQueryContent, changeResponseContent } from '@/redux/editorSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { createGraphqlApi, useFetchDataQuery } from '@/api/graphql';
 import EditorTabs from './EditorTabs';
 import { hideDocs, showDocs } from '@/redux/commonSlice';
 import HeadersEditor from './HeadersEditor';
 import VariablesEditor from './VariablesEditor';
 import QueryEditor from './QueryEditor';
+import { fetchData } from '@/api/graphqlFetch';
 
 const EditorContainer = () => {
   const { queryContent, headersContent, variablesContent, url } =
     useAppSelector((state: RootState) => state.editor);
   const dispatch = useAppDispatch();
-  const graphqlApi = createGraphqlApi(url);
-  const { useFetchSchemaQuery, useFetchDataQuery } = graphqlApi;
-  const {
-    data: schemaData,
-    isLoading: isSchemaLoading,
-    isError: isSchemaError,
-    refetch: refetchSchema,
-  } = useFetchSchemaQuery({}, { skip: true });
-  const { data, isLoading, isError, refetch } = useFetchDataQuery(
-    { query: queryContent },
-    { skip: true }
-  );
+  const [data, setData] = useState();
   const show = useAppSelector((state) => state.common.isShowDocs);
 
   useEffect(() => {
-    if (schemaData) {
-      console.log(schemaData, typeof schemaData, 'schema');
-    }
     if (data) {
+      dispatch(changeResponseContent(JSON.stringify(data, null, 2)));
       console.log(data, typeof data, 'data');
     }
-  }, [schemaData, data]);
+  }, [data, dispatch]);
 
   const runQuery = () => {
-    // TODO: Implement query
-    console.log({ queryContent });
-    console.log({ headersContent });
-    console.log({ variablesContent });
+    fetchData(
+      url,
+      queryContent,
+      JSON.parse(variablesContent),
+      JSON.parse(headersContent)
+    )
+      .then((data) => setData(data))
+      .catch((error) => console.error(error));
+    console.log({ queryContent }, typeof queryContent);
+    console.log({ headersContent }, typeof headersContent);
+    console.log({ variablesContent }, typeof variablesContent);
   };
 
   const runDoc = () => {
@@ -88,7 +82,6 @@ const EditorContainer = () => {
 
   return (
     <>
-      <h1 className={styles.urlHeader}>{url}</h1>
       <div className={cn(styles.editorQueryContainer, 'mb-2')}>
         <div className={cn(styles.editorQueryContainerBg)}></div>
         <button

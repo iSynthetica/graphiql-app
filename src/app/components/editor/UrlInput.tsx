@@ -1,23 +1,16 @@
-import { useSelector } from 'react-redux';
 import styles from './editor.module.scss';
 import { cn } from '@/utils/cn';
 import { RootState } from '@/redux/store';
-import { useFetchSchemaQuery } from '@/api/graphql';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { changeUrl } from '@/redux/editorSlice';
+import { changeSchemaContent, changeUrl } from '@/redux/editorSlice';
 import { useEffect, useState } from 'react';
+import { fetchSchema } from '@/api/graphqlFetch';
 
 const UrlInput = () => {
   const { url } = useAppSelector((state: RootState) => state.editor);
   const [urlInput, setUrlInput] = useState<string>(url);
   const dispatch = useAppDispatch();
-
-  const { data, isLoading, isError, refetch } = useFetchSchemaQuery(
-    {},
-    {
-      skip: true,
-    }
-  );
+  const [data, setData] = useState<{} | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUrlInput(event.target.value);
@@ -30,6 +23,20 @@ const UrlInput = () => {
 
     return () => clearTimeout(timer);
   }, [urlInput, dispatch]);
+
+  useEffect(() => {
+    fetchSchema(url)
+      .then((data) => setData(data))
+      .catch((error) => {
+        console.error(error);
+        setData(null);
+      });
+  }, [url]);
+
+  useEffect(() => {
+    dispatch(changeSchemaContent(data));
+  }, [data, dispatch]);
+
   return (
     <div className={cn(styles.urlInputContainer)}>
       <input

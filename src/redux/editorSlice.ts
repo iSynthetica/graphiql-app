@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { dummyQuery, dunmyHeaders, dummyVariables } from '@/data/dummyQuery';
-import { dummyResponse } from '@/data/dummyResponse';
 
 export interface EditorData {
   url: string;
@@ -9,6 +8,7 @@ export interface EditorData {
   variablesContent: string;
   responseContent: string;
   docsContent: string;
+  schemaContent: {} | null;
 }
 
 const initialState: EditorData = {
@@ -16,8 +16,9 @@ const initialState: EditorData = {
   queryContent: dummyQuery,
   headersContent: dunmyHeaders,
   variablesContent: dummyVariables,
-  responseContent: dummyResponse,
+  responseContent: '',
   docsContent: '',
+  schemaContent: null,
 };
 
 const editorSlice = createSlice({
@@ -39,6 +40,9 @@ const editorSlice = createSlice({
     changeHeadersContent: (state, action: PayloadAction<string>) => {
       state.headersContent = action.payload;
     },
+    changeSchemaContent: (state, action: PayloadAction<{} | null>) => {
+      state.schemaContent = action.payload;
+    },
   },
 });
 
@@ -48,6 +52,7 @@ export const {
   changeResponseContent,
   changeVariablesContent,
   changeHeadersContent,
+  changeSchemaContent,
 } = editorSlice.actions;
 
 export default editorSlice.reducer;
