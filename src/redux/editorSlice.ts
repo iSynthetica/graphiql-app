@@ -12,7 +12,7 @@ export interface EditorData {
 }
 
 const initialState: EditorData = {
-  url: 'https://rickandmortyapi.com/graphql',
+  url: '',
   queryContent: '',
   headersContent: '',
   variablesContent: '',
