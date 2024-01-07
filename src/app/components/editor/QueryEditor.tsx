@@ -48,6 +48,7 @@ function QueryEditor() {
           },
           scrollBeyondLastLine: false,
           renderLineHighlight: 'none',
+          fontSize: 14,
         }}
       />
     </div>
