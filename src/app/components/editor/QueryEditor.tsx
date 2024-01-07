@@ -17,7 +17,6 @@ function QueryEditor() {
   const editorRef = useRef<undefined | editor.IStandaloneCodeEditor>();
 
   const handleEditorOnChange = (value: string | undefined) => {
-    console.log(value);
     dispatch(changeQueryContent(value || ''));
   };
 

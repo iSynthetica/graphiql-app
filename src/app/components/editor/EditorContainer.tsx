@@ -29,7 +29,6 @@ const EditorContainer = () => {
   useEffect(() => {
     if (data) {
       dispatch(changeResponseContent(JSON.stringify(data, null, 2)));
-      console.log(data, typeof data, 'data');
     }
   }, [data, dispatch]);
 
@@ -42,9 +41,6 @@ const EditorContainer = () => {
     )
       .then((data) => setData(data))
       .catch((error) => console.error(error));
-    console.log({ queryContent }, typeof queryContent);
-    console.log({ headersContent }, typeof headersContent);
-    console.log({ variablesContent }, typeof variablesContent);
   };
 
   const runDoc = () => {

@@ -47,7 +47,6 @@ export const AuthContextProvider: React.FC<IAuthContextProviderProps> = ({
           setCurrentToken(token as string);
           isExpired = isTokenExpired(token as string);
         } else {
-          console.log('currentToken', currentToken);
           isExpired = isTokenExpired(currentToken as string);
         }
 

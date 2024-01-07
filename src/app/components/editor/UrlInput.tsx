@@ -1,12 +1,17 @@
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './editor.module.scss';
+import { ILocalizationContext } from '@/context/localization';
 import { cn } from '@/utils/cn';
 import { RootState } from '@/redux/store';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { changeSchemaContent, changeUrl } from '@/redux/editorSlice';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { fetchSchema } from '@/api/graphqlFetch';
+import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 
 const UrlInput = () => {
+  const { language, localization } = useContext(ILocalizationContext);
   const { url } = useAppSelector((state: RootState) => state.editor);
   const [urlInput, setUrlInput] = useState<string>(url);
   const dispatch = useAppDispatch();
@@ -16,13 +21,9 @@ const UrlInput = () => {
     setUrlInput(event.target.value);
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      dispatch(changeUrl(urlInput));
-    }, 600);
-
-    return () => clearTimeout(timer);
-  }, [urlInput, dispatch]);
+  const handleClick = () => {
+    dispatch(changeUrl(urlInput));
+  };
 
   useEffect(() => {
     fetchSchema(url)
@@ -37,14 +38,23 @@ const UrlInput = () => {
     dispatch(changeSchemaContent(data));
   }, [data, dispatch]);
 
+  const border = `border-b-4 border-green-800`;
+
   return (
     <div className={cn(styles.urlInputContainer)}>
       <input
-        className="block w-[100%] rounded-2xl text-gray-800 border-gray-800 border-2 text-xl p-2"
+        className={cn('border-gray-500 border-2', styles.urlInput)}
         type="text"
         value={urlInput}
         onChange={handleChange}
       />
+      <button
+        className={styles.urlBtn}
+        title={localization[language].changeEndpointBtn}
+        onClick={handleClick}
+      >
+        <FontAwesomeIcon icon={faArrowsRotate} />
+      </button>
     </div>
   );
 };
