@@ -46,7 +46,7 @@ const EditorPage = () => {
     <main className={cn('min-h-[90vh]')}>
       <div
         className={cn(
-          'flex flex-row items-center justify-center bg-green-custom-800 text-white'
+          'flex flex-col lg:flex-row items-center justify-center bg-green-custom-800 text-white'
         )}
       >
         {show && (
