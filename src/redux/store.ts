@@ -3,26 +3,20 @@ import commonReducer from './commonSlice';
 import editorReducer from './editorSlice';
 import controlReducer from './controlSlice';
 import { createWrapper } from 'next-redux-wrapper';
-import { graphqlApi } from '@/api/graphql';
 
 export const rootReducer = combineReducers({
   common: commonReducer,
   editor: editorReducer,
   control: controlReducer,
-  [graphqlApi.reducerPath]: graphqlApi.reducer,
 });
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(graphqlApi.middleware),
 });
 
 const makeStore = () =>
   configureStore({
     reducer: rootReducer,
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(graphqlApi.middleware),
     devTools: true,
   });
 

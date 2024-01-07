@@ -5,44 +5,46 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { Editor, OnMount } from '@monaco-editor/react';
 import { cn } from '@/utils/cn';
 import styles from './editor.module.scss';
 import { RootState } from '@/redux/store';
-import { useEffect, useRef, useState } from 'react';
-import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
+import { useEffect, useState } from 'react';
 import { prettifyGraphQLQuery } from '@/utils/prettier';
-import { changeQueryContent } from '@/redux/editorSlice';
+import { changeQueryContent, changeResponseContent } from '@/redux/editorSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { createGraphqlApi } from '@/api/graphql';
 import EditorTabs from './EditorTabs';
 import { hideDocs, showDocs } from '@/redux/commonSlice';
-import { setEditorsHeights } from '@/redux/controlSlice';
 import HeadersEditor from './HeadersEditor';
 import VariablesEditor from './VariablesEditor';
 import QueryEditor from './QueryEditor';
+import { fetchData } from '@/api/graphqlFetch';
 
 const EditorContainer = () => {
-  const { queryContent, headersContent, variablesContent } = useAppSelector(
-    (state: RootState) => state.editor
-  );
+  const { queryContent, headersContent, variablesContent, url } =
+    useAppSelector((state: RootState) => state.editor);
   const dispatch = useAppDispatch();
-  const graphqlApi = createGraphqlApi('https://rickandmortyapi.com/graphql');
-  const { useFetchSchemaQuery } = graphqlApi;
-  const { data, isLoading, isError } = useFetchSchemaQuery({});
+  const [data, setData] = useState();
   const show = useAppSelector((state) => state.common.isShowDocs);
 
   useEffect(() => {
     if (data) {
-      console.log(data, 'schema');
+      dispatch(changeResponseContent(JSON.stringify(data, null, 2)));
+      console.log(data, typeof data, 'data');
     }
-  }, [data]);
+  }, [data, dispatch]);
 
   const runQuery = () => {
-    // TODO: Implement query
-    console.log({ queryContent });
-    console.log({ headersContent });
-    console.log({ variablesContent });
+    fetchData(
+      url,
+      queryContent,
+      JSON.parse(variablesContent),
+      JSON.parse(headersContent)
+    )
+      .then((data) => setData(data))
+      .catch((error) => console.error(error));
+    console.log({ queryContent }, typeof queryContent);
+    console.log({ headersContent }, typeof headersContent);
+    console.log({ variablesContent }, typeof variablesContent);
   };
 
   const runDoc = () => {
@@ -76,11 +78,12 @@ const EditorContainer = () => {
     return () => {
       window.removeEventListener('keydown', handleGlobalKeyDown);
     };
-  }, []);
+  });
 
   return (
     <>
       <div className={cn(styles.editorQueryContainer, 'mb-2')}>
+        <div className={cn(styles.editorQueryContainerBg)}></div>
         <button
           className={cn(styles.btnEditor, styles.btnRunQuery)}
           onClick={runQuery}
