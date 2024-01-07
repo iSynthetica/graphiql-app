@@ -26,10 +26,7 @@ function QueryEditor() {
 
   return (
     <div
-      className={cn(
-        'border-gray-800 border-2 rounded-2xl p-6',
-        styles.innerContainer
-      )}
+      className={cn('p-6', styles.innerContainer)}
       onClick={() => {
         dispatch(setEditorsHeights([390, 145]));
       }}

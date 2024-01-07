@@ -1,4 +1,3 @@
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './editor.module.scss';
 import { ILocalizationContext } from '@/context/localization';
