@@ -1,0 +1,120 @@
+.urlHeader {
+  color: black;
+}
+
+.editorLeftCol {
+  padding: 10px;
+  background-color: white;
+  border: 3px solid #e6e6e6;
+  border-radius: 10px;
+}
+.editorRightCol {
+  margin: 10px;
+  border: 3px solid #e6e6e6;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: rgba($color: #ffffff, $alpha: 0.8);
+  .monaco-editor .fold-icon {
+    font-family: 'Material Icons';
+    font-size: 14px;
+    color: #2196f3;
+  }
+}
+.urlInputContainer {
+  margin-bottom: 10px;
+  padding-right: 35px;
+  position: relative;
+  .urlInput {
+    outline: none;
+    color: #333;
+    display: block;
+    width: 100%;
+    border: 2px solid rgb(144, 238, 144);
+    border-right: none;
+    height: 35px;
+    line-height: 35px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .urlBtn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: #90ee90;
+    color: white;
+    font-size: 20px;
+    width: 35px;
+    height: 35px;
+    line-height: 30px;
+    text-align: center;
+  }
+}
+.editorQueryContainer {
+  position: relative;
+  padding-right: 40px;
+  .btnEditor {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    right: 0;
+    border-radius: 5px;
+  }
+  .btnRunQuery {
+    top: 0;
+    background-color: #90ee90;
+    border: 1px solid #90ee90;
+    &:hover {
+      background-color: #6fce6f;
+      border: 1px solid #6fce6f;
+    }
+  }
+  .btnPrettify {
+    top: 35px;
+    background-color: transparent;
+    border: 1px solid rgb(178, 178, 178);
+    color: rgb(178, 178, 178);
+    &:hover {
+      border: 1px solid #6fce6f;
+      color: #6fce6f;
+    }
+  }
+  .btnDoc {
+    top: 70px;
+    background-color: transparent;
+    border: 1px solid rgb(178, 178, 178);
+    color: rgb(178, 178, 178);
+    &:hover {
+      border: 1px solid #6fce6f;
+      color: #6fce6f;
+    }
+  }
+
+  .innerContainer {
+    background-color: white;
+    padding: 5px 15px 5px 5px;
+    border: 2px solid rgb(144, 238, 144);
+  }
+}
+.editorTabNav {
+  li {
+    display: inline-block;
+    margin: 5px 10px;
+    button {
+      color: #333;
+    }
+    &.editorTabNavActive {
+      button {
+        color: #90ee90;
+      }
+    }
+  }
+}
+
+.editorTabContent {
+  display: none;
+  &.editorTabContentActive {
+    display: block;
+  }
+}
