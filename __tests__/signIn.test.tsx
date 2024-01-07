@@ -1,58 +1,54 @@
-// import { render, fireEvent, waitFor } from '@testing-library/react';
-// // import { userEvent } from '@testing-library/userEvent';
-// import * as AuthContext from '@/context/AuthContext';
-// import * as ReactRouter from 'next/router';
-// import * as FirebaseConfig from '@/app/firebase/config';
-// import Login from '@/app/(auth)/signin/page';
-// import * as LocalizationContext from '@/context/localization';
-// import { NextRouter } from 'next/router';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+// import { userEvent } from '@testing-library/userEvent';
+import * as AuthContext from '@/context/AuthContext';
+import * as FirebaseConfig from '@/app/firebase/config';
+import Login from '@/app/(auth)/signin/page';
 
-// import { mockLocalizationData } from '../mocks/mocks';
+import { mockLocalizationData } from '../mocks/mocks';
+import { useRouter } from 'next/navigation';
 
-// jest.mock('next/router', () => ({
-//   useRouter: jest.fn(),
-// }));
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
 
-// jest.mock('@/context/AuthContext', () => ({
-//   useAuth: jest.fn(),
-// }));
+jest.mock('@/context/localization', () => ({
+  useContext: jest.fn(),
+}));
 
-// jest.mock('@/app/firebase/config', () => ({
-//   signIn: jest.fn(),
-//   signInWithGoogle: jest.fn(),
-// }));
+jest.mock('@/context/AuthContext', () => ({
+  useAuth: jest.fn(),
+}));
 
-// describe('Login Component', () => {
-//   // Mock implementations
-//   const mockPush = jest.fn();
-//   const useRouterMock: jest.MockedFunction<
-//     () => Partial<ReactRouter.NextRouter>
-//   > = jest.mocked(ReactRouter.useRouter);
-//   const useAuthMock: jest.MockedFunction<typeof AuthContext.useAuth> =
-//     jest.mocked(AuthContext.useAuth);
-//   const signInMock: jest.MockedFunction<typeof FirebaseConfig.signIn> =
-//     jest.mocked(FirebaseConfig.signIn);
-//   beforeEach(() => {
-//     jest.clearAllMocks();
-//     const mockUseRouter = () => {
-//       const router: Partial<NextRouter> = {
-//         push: jest.fn(),
-//         // add other properties and methods you use from the useRouter hook
-//       };
-//       return router;
-//     };
-//     AuthContext.useAuth.mockReturnValue({ user: null });
+jest.mock('@/app/firebase/config', () => ({
+  auth: jest.fn(),
+  db: jest.fn(),
+  logout: jest.fn(),
+  signIn: jest.fn(),
+  signInWithGoogle: jest.fn(),
+  signUp: jest.fn(),
+}));
 
-//     jest.mock('@/context/localization', () => ({
-//       ...jest.requireActual('@/context/localization'),
-//       useContext: jest.fn(),
-//     }));
+describe('Login Component', () => {
+  // Mock implementations
+  const mockPush = jest.fn();
 
-//     LocalizationContext.useContext.mockReturnValue(mockLocalizationData);
-//   });
+  (useRouter as jest.Mock).mockImplementation(() => ({
+    push: mockPush,
+    replace: jest.fn(),
+  }));
+  const useAuthMock: jest.MockedFunction<typeof AuthContext.useAuth> =
+    jest.mocked(AuthContext.useAuth);
+  const signInMock: jest.MockedFunction<typeof FirebaseConfig.signIn> =
+    jest.mocked(FirebaseConfig.signIn);
 
-//   it('renders with correct localization', () => {
-//     const { getByText } = render(<Login />);
-//     expect(mockLocalizationData.localization.EN.login).toBeInTheDocument();
-//   });
-// });
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('renders with correct localization', () => {
+    const { getByText } = render(<Login />);
+
+    const el = screen.getByText(mockLocalizationData.localization.EN.login);
+    expect(el).toBeInTheDocument();
+  });
+});

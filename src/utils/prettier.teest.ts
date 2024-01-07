@@ -1,5 +1,5 @@
-import { describe, expect, test } from 'vitest';
-import { prettifyGraphQLQuery } from './prettier'; // replace 'yourFile' with the actual file path
+import '@testing-library/jest-dom';
+import { prettifyGraphQLQuery } from './prettier';
 
 describe('prettifyGraphQLQuery', () => {
   test('correct prettify', () => {
@@ -43,9 +43,9 @@ describe('prettifyGraphQLQuery', () => {
                 name
                 src
             }
-            }
+          }
         }
-        `;
+      `;
 
     const result = prettifyGraphQLQuery(originalQuery);
     expect(result).toEqual(expectedPrettifiedQuery);
