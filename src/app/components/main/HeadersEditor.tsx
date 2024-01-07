@@ -33,10 +33,7 @@ function HeadersEditor() {
       )}
     >
       <div
-        className={cn(
-          'border-gray-800 border-2 rounded-2xl',
-          styles.innerContainer
-        )}
+        className={cn(styles.innerContainer)}
         onClick={() => {
           dispatch(setEditorsHeights([285, 250]));
         }}

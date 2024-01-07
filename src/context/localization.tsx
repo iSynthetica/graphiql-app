@@ -28,6 +28,7 @@ export interface ILocalizationContextType {
       errorLogIn: string;
       errorSignUp: string;
       errorLogOut: string;
+      changeEndpointBtn: string;
     };
   };
 }
@@ -55,6 +56,7 @@ const localization: ILocalizationContextType['localization'] = {
     errorSignUp: 'Email is already in use',
     errorLogIn: 'Login error',
     errorLogOut: 'Logout error',
+    changeEndpointBtn: 'Change Endpoint',
   },
   RU: {
     greeting: 'Добро пожаловать!',
@@ -78,6 +80,7 @@ const localization: ILocalizationContextType['localization'] = {
     errorSignUp: 'Этот адрес электронной почты уже используется',
     errorLogIn: 'Ошибка входа',
     errorLogOut: 'Ошибка выхода',
+    changeEndpointBtn: 'Сменить Эндпоинт',
   },
   UA: {
     greeting: 'Ласкаво просимо!',
@@ -101,6 +104,7 @@ const localization: ILocalizationContextType['localization'] = {
     errorLogIn: 'Помилка входу',
     errorSignUp: 'Електронна пошта вже використовується',
     errorLogOut: 'Помилка виходу',
+    changeEndpointBtn: 'Змінити Ендпоінт',
   },
 };
 
