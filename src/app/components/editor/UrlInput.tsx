@@ -8,6 +8,7 @@ import { changeSchemaContent, changeUrl } from '@/redux/editorSlice';
 import { useContext, useEffect, useState } from 'react';
 import { fetchSchema } from '@/api/graphqlFetch';
 import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
 const UrlInput = () => {
   const { language, localization } = useContext(ILocalizationContext);
@@ -22,16 +23,14 @@ const UrlInput = () => {
 
   const handleClick = () => {
     dispatch(changeUrl(urlInput));
-  };
 
-  useEffect(() => {
-    fetchSchema(url)
+    fetchSchema(urlInput)
       .then((data) => setData(data))
       .catch((error) => {
-        console.error(error);
+        toast.error(error.message);
         setData(null);
       });
-  }, [url]);
+  };
 
   useEffect(() => {
     dispatch(changeSchemaContent(data));

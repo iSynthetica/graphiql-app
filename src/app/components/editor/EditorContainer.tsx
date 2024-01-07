@@ -20,7 +20,7 @@ import QueryEditor from './QueryEditor';
 import { fetchData } from '@/api/graphqlFetch';
 
 const EditorContainer = () => {
-  const { queryContent, headersContent, variablesContent, url } =
+  const { queryContent, headersContent, variablesContent, url, schemaContent } =
     useAppSelector((state: RootState) => state.editor);
   const dispatch = useAppDispatch();
   const [data, setData] = useState();
@@ -93,13 +93,15 @@ const EditorContainer = () => {
         >
           <FontAwesomeIcon icon={faMagicWandSparkles} />
         </button>
-        <button
-          className={cn(styles.btnEditor, styles.btnDoc)}
-          onClick={runDoc}
-          title="Documentaion - Shift+Ctrl+D"
-        >
-          <FontAwesomeIcon icon={faBook} />
-        </button>
+        {schemaContent && (
+          <button
+            className={cn(styles.btnEditor, styles.btnDoc)}
+            onClick={runDoc}
+            title="Documentaion - Shift+Ctrl+D"
+          >
+            <FontAwesomeIcon icon={faBook} />
+          </button>
+        )}
         <QueryEditor />
       </div>
       <EditorTabs />
