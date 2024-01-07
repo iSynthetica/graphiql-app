@@ -36,8 +36,8 @@ const EditorContainer = () => {
     fetchData(
       url,
       queryContent,
-      JSON.parse(variablesContent),
-      JSON.parse(headersContent)
+      JSON.parse(variablesContent || '{}'),
+      JSON.parse(headersContent || '{}')
     )
       .then((data) => setData(data))
       .catch((error) => console.error(error));
