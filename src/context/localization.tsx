@@ -29,6 +29,9 @@ export interface ILocalizationContextType {
       errorSignUp: string;
       errorLogOut: string;
       changeEndpointBtn: string;
+      endpointInputPlaceholder: string;
+      headersTab: string;
+      variablesTab: string;
     };
   };
 }
@@ -57,6 +60,9 @@ const localization: ILocalizationContextType['localization'] = {
     errorLogIn: 'Login error',
     errorLogOut: 'Logout error',
     changeEndpointBtn: 'Change Endpoint',
+    endpointInputPlaceholder: 'Enter your GraphQL endpoint here',
+    headersTab: 'Headers',
+    variablesTab: 'Variables',
   },
   RU: {
     greeting: 'Добро пожаловать!',
@@ -81,6 +87,9 @@ const localization: ILocalizationContextType['localization'] = {
     errorLogIn: 'Ошибка входа',
     errorLogOut: 'Ошибка выхода',
     changeEndpointBtn: 'Сменить Эндпоинт',
+    endpointInputPlaceholder: 'Введите сюда ваш GraphQL эндпоинт',
+    headersTab: 'Заголовки',
+    variablesTab: 'Переменные',
   },
   UA: {
     greeting: 'Ласкаво просимо!',
@@ -105,6 +114,9 @@ const localization: ILocalizationContextType['localization'] = {
     errorSignUp: 'Електронна пошта вже використовується',
     errorLogOut: 'Помилка виходу',
     changeEndpointBtn: 'Змінити Ендпоінт',
+    endpointInputPlaceholder: 'Введіть сюди ваш GraphQL ендпоінт',
+    headersTab: 'Заголовки',
+    variablesTab: 'Змінні',
   },
 };
 

@@ -45,6 +45,7 @@ const UrlInput = () => {
         type="text"
         value={urlInput}
         onChange={handleChange}
+        placeholder={localization[language].endpointInputPlaceholder}
       />
       <button
         className={styles.urlBtn}

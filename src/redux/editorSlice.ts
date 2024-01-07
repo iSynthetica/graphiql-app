@@ -13,9 +13,9 @@ export interface EditorData {
 
 const initialState: EditorData = {
   url: 'https://rickandmortyapi.com/graphql',
-  queryContent: dummyQuery,
-  headersContent: dunmyHeaders,
-  variablesContent: dummyVariables,
+  queryContent: '',
+  headersContent: '',
+  variablesContent: '',
   responseContent: '',
   docsContent: '',
   schemaContent: null,
