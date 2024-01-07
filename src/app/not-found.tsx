@@ -1,5 +1,5 @@
 'use client';
-import { ILocalizationContext } from '@/localization';
+import { ILocalizationContext } from '@/context/localization';
 import Link from 'next/link';
 import { useContext } from 'react';
 

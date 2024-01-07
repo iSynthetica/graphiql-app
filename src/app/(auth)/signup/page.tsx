@@ -1,7 +1,7 @@
 'use client';
 import { signUp } from '@/app/firebase/config';
 import { useAuth } from '@/context/AuthContext';
-import { ILocalizationContext } from '@/localization';
+import { ILocalizationContext } from '@/context/localization';
 import { IAuthContextValue } from '@/types/interfaces';
 import { FormDataSchema, validationSchema } from '@/utils/schema';
 import { yupResolver } from '@hookform/resolvers/yup';

@@ -1,6 +1,6 @@
 'use client';
 import { AuthContextProvider } from '@/context/AuthContext';
-import { ILocalizationProvider } from '@/localization';
+import { ILocalizationProvider } from '@/context/localization';
 import AppProvider from '@/redux/AppProvider';
 import { Comfortaa } from 'next/font/google';
 import { ToastContainer } from 'react-toastify';

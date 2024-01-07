@@ -1,6 +1,6 @@
 import { FirebaseError, getApps, initializeApp } from 'firebase/app';
 import {
-  GoogleAuthProvider,
+  // GoogleAuthProvider,
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
@@ -60,20 +60,5 @@ const signIn = async (email: string, password: string) => {
   return { result, error };
 };
 
-const signInWithGoogle = async () => {
-  const googleProvider = new GoogleAuthProvider();
-  try {
-    const res = await signInWithPopup(auth, googleProvider);
-    const user = auth.currentUser;
-    const token = await user?.getIdToken();
-    nookies.set(undefined, 'token', token!, { path: '/' });
-    return res.user;
-  } catch (err: FirebaseError | unknown) {
-    if (err instanceof FirebaseError) {
-      return { error: err };
-    }
-  }
-};
-
-export { auth, db, logout, signIn, signInWithGoogle, signUp };
+export { auth, db, logout, signIn, signUp };
 export default firebase_app;

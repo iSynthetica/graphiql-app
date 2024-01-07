@@ -20,7 +20,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"] // "@/*": ["src/*"]
     }
   },
   "include": [
@@ -28,10 +28,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/firebase/config.ts",
-    "src/app/sign-up/[sign-up.tsx]",
-    "src/app/firebase/firestore/getData.ts",
-    "vitest.config.mts"
+    "jest.config.ts",
+    "jest.config.js",
+    "jest.setup.js"
   ],
   "exclude": ["node_modules"]
 }
