@@ -9,8 +9,11 @@
   border-radius: 10px;
 }
 .editorRightCol {
+  margin: 10px;
+  border: 3px solid #e6e6e6;
+  border-radius: 10px;
   padding: 10px;
-  background-color: rgba($color: #ffffff, $alpha: 0.5);
+  background-color: rgba($color: #ffffff, $alpha: 0.8);
   .monaco-editor .fold-icon {
     font-family: 'Material Icons';
     font-size: 14px;

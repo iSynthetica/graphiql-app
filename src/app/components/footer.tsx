@@ -8,7 +8,7 @@ const Footer = () => {
 
   return (
     <footer className="h-16 sticky bottom-0">
-      <div className="bg-gray-600 text-white text-center flex justify-between items-center px-24">
+      <div className="bg-gray-600 text-white text-center flex justify-between items-center lg:px-24">
         <Link
           href="https://github.com/iSynthetica"
           target="_blank"

@@ -54,7 +54,6 @@ const EditorContainer = () => {
     }
   };
 
-  //add keyboard shortcut for prettier
   useEffect(() => {
     const handleGlobalKeyDown = (event: KeyboardEvent) => {
       if (event.shiftKey && event.ctrlKey && event.key === 'P') {

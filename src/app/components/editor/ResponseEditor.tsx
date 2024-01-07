@@ -13,7 +13,7 @@ const ResponseEditor = () => {
       inherit: true,
       rules: [],
       colors: {
-        'editor.background': '#e6e6e6',
+        'editor.background': '#FFF',
       },
     });
   };
@@ -35,6 +35,7 @@ const ResponseEditor = () => {
           renderLineHighlight: 'none',
           lineDecorationsWidth: 20,
           showFoldingControls: 'always',
+          fontSize: 14,
         }}
       />
     </div>
