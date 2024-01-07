@@ -1,19 +1,15 @@
 import { schemaBody } from '@/data/schemaBody';
 
 export const fetchSchema = async (url: string) => {
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(schemaBody),
-    });
-    const result = await response.json();
-    return result;
-  } catch (error) {
-    console.error(error);
-  }
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(schemaBody),
+  });
+  const result = await response.json();
+  return result;
 };
 
 export const fetchData = async (
